@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="shortcut icon" href="#" />
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style></style>
+</head>
+
+<body>
+    <script>
+
+        Promise.all([
+
+            d3.json("/data/endsong_0.json"),
+            d3.json("/data/endsong_1.json"),
+            d3.json("/data/endsong_2.json"),
+            d3.json("/data/endsong_3.json"),
+            d3.json("/data/endsong_4.json"),
+            d3.json("/data/endsong_5.json"),
+            d3.json("/data/endsong_6.json"),
+            d3.json("/data/endsong_7.json")
+
+        ]).then(function (jsons) {
+
+            songs_albums_listens = {};
+
+            /**building an object of the form:
+                {
+                    artist1: {
+                        album1: {
+                            song1: x
+                        },
+                        album2: {
+                            song3: x,
+                            song5: x
+                        }
+                    },
+                    artist2: {
+                        album1: {
+                            song1: x
+                        },
+                        album2: {
+                            song3: x,
+                            song5: x
+                        }
+                    },
+                }
+            */
+            for (var i = 0; i < jsons.length; i++) {
+                for (var j = 0; j < jsons[i].length; j++) {
+
+                    var artist = jsons[i][j].master_metadata_album_artist_name;
+                    var album = jsons[i][j].master_metadata_album_album_name;
+                    var song = jsons[i][j].master_metadata_track_name;
+
+                    if (!(artist in songs_albums_listens)) {
+                        var data_album = {};
+                        data_album[song] = 1;
+                        var data_artist = {};
+                        data_artist[album] = data_album;
+                        songs_albums_listens[artist] = data_artist;
+                    } else {
+                        albums_for_artist = songs_albums_listens[artist];
+                        if (!(album in albums_for_artist)) {
+                            var data_album = {};
+                            data_album[song] = 1;
+                            songs_albums_listens[artist][album] = data_album;
+                        } else {
+                            songs_for_album = albums_for_artist[album];
+                            if (!(song in songs_for_album)) {
+                                songs_for_album[song] = 1;
+                            } else {
+                                songs_for_album[song] = (songs_for_album[song] + 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // cleaning songs_albums_listens lists
+            for (const artist in songs_albums_listens) {
+                if (songs_albums_listens.hasOwnProperty(artist)) {
+                    count = 0;
+                    for (const album in artist) {
+                        if (artist.hasOwnProperty(album)) {
+                            for (const song in album) {
+                                if (artist.hasOwnProperty(song)) {
+                                    count = (count + parseInt(album[song]));
+                                }
+                            }
+
+                        }
+                    }
+
+                    if (count < 100) {
+                        console.log(artist + ": " + count)
+                        delete songs_albums_listens[artist];
+                    }
+                }
+            }
+
+            // delete songs_albums_listens["null"];
+            // delete songs_albums_listens["Daft Punk"];
+            // delete songs_albums_listens["Drake"];
+            // delete songs_albums_listens["Pink Guy"];
+            // delete songs_albums_listens["Gorillaz"];
+            // delete songs_albums_listens["Kenji Kawai"];
+            // delete songs_albums_listens["Marcin Przybyłowicz"];
+            // delete songs_albums_listens["Mikolai Stroinski"];
+            // delete songs_albums_listens["Paradox Interactive"];
+            // delete songs_albums_listens["Thousand Foot Krutch"];
+            // delete songs_albums_listens["Trouvere Medieval Minstrels"];
+            // delete songs_albums_listens["Harry Gregson-Williams"];
+
+            console.log(songs_albums_listens);
+
+        });
+
+
+    </script>
+</body>
