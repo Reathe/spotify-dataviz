@@ -23,37 +23,45 @@
 
         ]).then(function (jsons) {
 
-            songs_albums_listens = {};
+            // building:
+            // 1. listing of artists, albums per artists, songs per albums and number of listens
+            // 2. chronology of each listens per day, with song, duration, artist and album
+            var songs_albums_listens = {};
+            var chronology = {};
 
-            /**building an object of the form:
-                {
-                    artist1: {
-                        album1: {
-                            song1: x
-                        },
-                        album2: {
-                            song3: x,
-                            song5: x
-                        }
-                    },
-                    artist2: {
-                        album1: {
-                            song1: x
-                        },
-                        album2: {
-                            song3: x,
-                            song5: x
-                        }
-                    },
-                }
-            */
             for (var i = 0; i < jsons.length; i++) {
                 for (var j = 0; j < jsons[i].length; j++) {
 
+                    var ts = jsons[i][j].ts;;
+                    var day = ts.substr(0, 10);
+                    var time = ts.substr(11, 8);
+                    var ms_played = jsons[i][j].ms_played;
                     var artist = jsons[i][j].master_metadata_album_artist_name;
                     var album = jsons[i][j].master_metadata_album_album_name;
                     var song = jsons[i][j].master_metadata_track_name;
 
+                    /** listing of the form:
+                        {
+                            artist1: {
+                                album1: {
+                                    song1: x
+                                },
+                                album2: {
+                                    song3: x,
+                                    song5: x
+                                }
+                            },
+                            artist2: {
+                                album1: {
+                                    song1: x
+                                },
+                                album2: {
+                                    song3: x,
+                                    song5: x
+                                }
+                            },
+                        }
+                    */
                     if (!(artist in songs_albums_listens)) {
                         var data_album = {};
                         data_album[song] = 1;
@@ -75,45 +83,99 @@
                             }
                         }
                     }
-                }
-            }
 
-            // cleaning songs_albums_listens lists
-            for (const artist in songs_albums_listens) {
-                if (songs_albums_listens.hasOwnProperty(artist)) {
-                    count = 0;
-                    for (const album in artist) {
-                        if (artist.hasOwnProperty(album)) {
-                            for (const song in album) {
-                                if (artist.hasOwnProperty(song)) {
-                                    count = (count + parseInt(album[song]));
+                    /** chronology of the form:
+                        {
+                            day (yyyy-mm-dd): {
+                                time (hh:mm:ss UTC): {
+                                    songname: x,
+                                    ms_played: x,
+                                    artist: x,
+                                    album: x
+                                },
+                                time: {
+                                    songname: x,
+                                    ms_played: x,
+                                    artist: x,
+                                    album: x
                                 }
-                            }
-
+                            },
+                            day: {
+                                time: {
+                                    songname: x,
+                                    ms_played: x,
+                                    artist: x,
+                                    album: x
+                                },
+                            },
+                        }
+                    */
+                    if (!(day in chronology)) {
+                        var new_day = {};
+                        new_day[time] = {
+                            "songname": song,
+                            "ms_played": ms_played,
+                            "artist": artist,
+                            "album": album,
+                        };
+                        chronology[day] = new_day;
+                    } else {
+                        chronology[day][time] = {
+                            "songname": song,
+                            "ms_played": ms_played,
+                            "artist": artist,
+                            "album": album,
                         }
                     }
-
-                    if (count < 100) {
-                        console.log(artist + ": " + count)
-                        delete songs_albums_listens[artist];
-                    }
                 }
             }
 
-            // delete songs_albums_listens["null"];
-            // delete songs_albums_listens["Daft Punk"];
-            // delete songs_albums_listens["Drake"];
-            // delete songs_albums_listens["Pink Guy"];
-            // delete songs_albums_listens["Gorillaz"];
-            // delete songs_albums_listens["Kenji Kawai"];
-            // delete songs_albums_listens["Marcin Przybyłowicz"];
-            // delete songs_albums_listens["Mikolai Stroinski"];
-            // delete songs_albums_listens["Paradox Interactive"];
-            // delete songs_albums_listens["Thousand Foot Krutch"];
-            // delete songs_albums_listens["Trouvere Medieval Minstrels"];
-            // delete songs_albums_listens["Harry Gregson-Williams"];
+            // cleaning data structures of unwanted artists
+            var blacklist = [
+                "Ben Morfitt (SquidPhysics)",
+                "Daft Punk",
+                "Drake",
+                "Gorillaz",
+                "John Renbourn",
+                "Kenji Kawai",
+                "Justice",
+                "Marcin Przybyłowicz",
+                "Mikolai Stroinski",
+                "Mick Gordon",
+                "null",
+                "Pink Guy",
+                "Parcels",
+                "Paradox Interactive",
+                "Thousand Foot Krutch",
+                "Trouvere Medieval Minstrels"
+            ];
+            Object.keys(songs_albums_listens).forEach(function (artist) {
+                var count = 0;
+                Object.keys(songs_albums_listens[artist]).forEach(function (album) {
+                    Object.keys(songs_albums_listens[artist][album]).forEach(function (song) {
+                        count = (count + songs_albums_listens[artist][album][song]);
+                    });
+                });
+                if (count < 100) blacklist.push(artist);
+            });
+
+            blacklist.forEach(function (blacklisted) {
+                delete songs_albums_listens[blacklisted];
+            })
+
+            Object.keys(chronology).forEach(function (day) {
+                Object.keys(chronology[day]).forEach(function (time) {
+                    if (blacklist.includes(chronology[day][time]["artist"])) {
+                        delete chronology[day][time];
+                        var empty = true;
+                        for (var i in chronology[day]) { empty = false; break; }
+                        if (empty) delete chronology[day];
+                    }
+                });
+            });
 
             console.log(songs_albums_listens);
+            console.log(chronology);
 
         });
 
