@@ -5,7 +5,7 @@
 Variation dans les habitudes d'écoute :
 - Beaucoup d'artistes & peu de chansons par artiste (large) vs. l'inverse (profond)
 - Eclectique en genres musicaux ou plutôt chauvin
-- Tendance à écouter des albums (presque au complet) ou des playlists avec seulement quelques chasons par artiste
+- Tendance à écouter des albums (presque au complet) ou des playlists avec seulement quelques chansons par artiste
 - Artistes populaires vs. exploration
 - Pour un artiste, rester sur ses chansons les plus écoutées ou explorer son répertoire
 - Différences dans le temps d'écoute (par jour, par session, etc.)

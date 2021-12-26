@@ -163,8 +163,15 @@
                 delete songs_albums_listens[blacklisted];
             })
 
+            const reducer = (accumulator, curr) => accumulator + curr;
             Object.keys(chronology).forEach(function (day) {
+                var total_listen_time = 0;
+                var listen_time = [];
+                for (let i = 0; i < 24; i++) { listen_time[i] = 0; }
                 Object.keys(chronology[day]).forEach(function (time) {
+                    var hour = time.substr(0, 2);
+                    listen_time[parseInt(hour)] += chronology[day][time]['ms_played'];
+                    // total_listen_time += chronology[day][time]['ms_played'];
                     if (blacklist.includes(chronology[day][time]["artist"])) {
                         delete chronology[day][time];
                         var empty = true;
@@ -172,10 +179,16 @@
                         if (empty) delete chronology[day];
                     }
                 });
+                if (typeof chronology[day] !== 'undefined') {
+                    chronology[day].listen_time = listen_time;
+                    chronology[day].total_listen_time = listen_time.reduce(reducer);
+                }
             });
 
-            console.log(songs_albums_listens);
+            // console.log(songs_albums_listens);
             console.log(chronology);
+            // console.log(chronology['2014-05-14']);
+            // console.log(chronology['2014-05-14']);
 
         });
 
