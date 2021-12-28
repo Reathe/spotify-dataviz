@@ -49,7 +49,9 @@
                                 album2: {
                                     song3: x,
                                     song5: x
-                                }
+                                    total_songs: x
+                                },
+                                total_albums: x
                             },
                             artist2: {
                                 album1: {
@@ -58,7 +60,8 @@
                                 album2: {
                                     song3: x,
                                     song5: x
-                                }
+                                },
+                                total_albums: x
                             },
                         }
                     */
@@ -98,7 +101,10 @@
                                     ms_played: x,
                                     artist: x,
                                     album: x
-                                }
+                                },
+                                listen_time: [0,0,x, ...],
+                                sessions: [[x, y], ...],
+                                total_listen_time: x
                             },
                             day: {
                                 time: {
@@ -150,9 +156,12 @@
                 "Thousand Foot Krutch",
                 "Trouvere Medieval Minstrels"
             ];
+
             Object.keys(songs_albums_listens).forEach(function (artist) {
                 var count = 0;
+                songs_albums_listens[artist]["total_albums"] = Object.keys(songs_albums_listens[artist]).length;
                 Object.keys(songs_albums_listens[artist]).forEach(function (album) {
+                    songs_albums_listens[artist][album]["total_songs"] = Object.keys(songs_albums_listens[artist][album]).length;
                     Object.keys(songs_albums_listens[artist][album]).forEach(function (song) {
                         count = (count + songs_albums_listens[artist][album][song]);
                     });
@@ -164,6 +173,7 @@
                 delete songs_albums_listens[blacklisted];
             })
 
+            var average_session_length = 0;
             const reducer = (accumulator, curr) => accumulator + curr;
             Object.keys(chronology).forEach(function (day) {
                 var total_listen_time = 0;
@@ -172,7 +182,6 @@
                 Object.keys(chronology[day]).forEach(function (time) {
                     var hour = time.substr(0, 2);
                     listen_time[parseInt(hour)] += chronology[day][time]['ms_played'];
-                    // total_listen_time += chronology[day][time]['ms_played'];
                     if (blacklist.includes(chronology[day][time]["artist"]) || chronology[day][time]["songname"] == null) {
                         delete chronology[day][time];
                         var empty = true;
@@ -181,13 +190,91 @@
                     }
                 });
                 if (typeof chronology[day] !== 'undefined') {
+                    var i = 0;
+                    var sessions = [];
+                    var start = 0;
+                    var session_is_in = false;
+                    var end = 0;
+                    while (i < 24) {
+                        if (listen_time[i] == 0) {
+                            if (session_is_in) {
+                                end = i - 1;
+                                sessions.push([start, end]);
+                                start = 0;
+                                end = 0;
+                                session_is_in = false;
+                            }
+                        } else {
+                            if (!session_is_in) {
+                                start = i;
+                                session_is_in = true;
+                            }
+                        }
+                        i++;
+                    }
+                    chronology[day].sessions = sessions;
                     chronology[day].listen_time = listen_time;
                     chronology[day].total_listen_time = listen_time.reduce(reducer);
                 }
             });
 
-            console.log(JSON.stringify(songs_albums_listens));
+            // console.log(songs_albums_listens);
             console.log(chronology);
+
+            // average listening time per hour since first day
+            // session length stats
+            var total_listen_time_per_hour = [];
+            for (let i = 0; i < 24; i++) { total_listen_time_per_hour[i] = 0; }
+            var length = 0;
+            var session_lengths = [];
+            for (let i = 1; i < 18; i++) { session_lengths[i] = 0; }
+            var total_sessions = [];
+            Object.keys(chronology).forEach(function (day) {
+                length++;
+                chronology[day]['sessions'].forEach(([start, end]) => {
+                    session_lengths[end - start + 1]++;
+                    total_sessions.push([start, end]);
+                });
+                Object.keys(chronology[day]).forEach(function (time) {
+                    var hour = time.substr(0, 2);
+                    total_listen_time_per_hour[parseInt(hour)] += chronology[day][time]['ms_played'];
+                });
+            });
+            for (let i = 0; i < 24; i++) {
+                total_listen_time_per_hour[i] *= 1.66667e-5;
+                total_listen_time_per_hour[i] /= 2096;
+            }
+            var total_sessions = total_sessions.sort(function (a, b) {
+                if (a[0] == b[0]) return a[1] - b[1];
+                return a[0] - b[0];
+            });
+            // console.log(total_listen_time_per_hour);
+            console.log(total_sessions);
+            console.log(session_lengths);
+
+            // average number of albums listened to per artists, songs listened to per album
+            var total_artists = 0;
+            var total_albums = 0;
+            var total_songs = 0;
+            Object.keys(songs_albums_listens).forEach(function (artist) {
+                total_artists++;
+                Object.keys(songs_albums_listens[artist]).forEach(function (album) {
+                    total_albums++;
+                    Object.keys(songs_albums_listens[artist][album]).forEach(function (song) {
+                        total_songs++;
+                    });
+                });
+            });
+            var average_albums_per_artist = total_albums / total_artists;
+            var average_songs_per_artist = total_songs / total_artists;
+            var average_songs_per_album = total_songs / total_albums;
+            // console.log("total number of artists: " + total_artists);
+            // console.log("total number of albums: " + total_albums);
+            // console.log("total number of songs: " + total_songs);
+            // console.log("average number of albums listened to per artist: " + average_albums_per_artist);
+            // console.log("average number of songs listened to per artist: " + average_songs_per_artist);
+            // console.log("average number of songs listened to per album: " + average_songs_per_album);
+
 
         });
 
