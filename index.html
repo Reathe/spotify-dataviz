@@ -161,10 +161,14 @@
                 var count = 0;
                 songs_albums_listens[artist]["total_albums"] = Object.keys(songs_albums_listens[artist]).length;
                 Object.keys(songs_albums_listens[artist]).forEach(function (album) {
-                    songs_albums_listens[artist][album]["total_songs"] = Object.keys(songs_albums_listens[artist][album]).length;
-                    Object.keys(songs_albums_listens[artist][album]).forEach(function (song) {
-                        count = (count + songs_albums_listens[artist][album][song]);
-                    });
+                    if (album !== "total_albums"){
+                        songs_albums_listens[artist][album]["total_songs"] = Object.keys(songs_albums_listens[artist][album]).length;
+                        Object.keys(songs_albums_listens[artist][album]).forEach(function (song) {
+                            if (song !== 'total_songs'){
+                                count = (count + songs_albums_listens[artist][album][song]);
+                            }
+                        });
+                    }
                 });
                 if (count < 100) blacklist.push(artist);
             });
