@@ -182,7 +182,9 @@
                 Object.keys(chronology[day]).forEach(function (time) {
                     var hour = time.substr(0, 2);
                     listen_time[parseInt(hour)] += chronology[day][time]['ms_played'];
-                    if (blacklist.includes(chronology[day][time]["artist"]) || chronology[day][time]["songname"] == null) {
+                    if (blacklist.includes(chronology[day][time]["artist"]) ||
+                        chronology[day][time]["songname"] == null ||
+                        typeof chronology[day][time]["ms_played"] == 'undefined') {
                         delete chronology[day][time];
                         var empty = true;
                         for (var i in chronology[day]) { empty = false; break; }
@@ -217,40 +219,90 @@
                     chronology[day].total_listen_time = listen_time.reduce(reducer);
                 }
             });
+            delete chronology["2014-05-14"];
 
             // console.log(songs_albums_listens);
-            console.log(chronology);
+            // console.log(chronology);
 
-            // average listening time per hour since first day
+            // average listening time per hour, day, week, month, year since first day
+            // average listen time per hour, detailed
             // session length stats
-            var total_listen_time_per_hour = [];
-            for (let i = 0; i < 24; i++) { total_listen_time_per_hour[i] = 0; }
-            var length = 0;
+            var listen_time_per_hour_detailed = [];
+            for (let i = 0; i < 24; i++) { listen_time_per_hour_detailed[i] = 0; }
             var session_lengths = [];
             for (let i = 1; i < 18; i++) { session_lengths[i] = 0; }
             var total_sessions = [];
+            var total_listen_time = 0;
             Object.keys(chronology).forEach(function (day) {
-                length++;
                 chronology[day]['sessions'].forEach(([start, end]) => {
                     session_lengths[end - start + 1]++;
                     total_sessions.push([start, end]);
                 });
                 Object.keys(chronology[day]).forEach(function (time) {
                     var hour = time.substr(0, 2);
-                    total_listen_time_per_hour[parseInt(hour)] += chronology[day][time]['ms_played'];
+                    var ms_played = chronology[day][time]['ms_played'];
+                    if (typeof ms_played !== 'undefined') {
+                        total_listen_time += ms_played;
+                        listen_time_per_hour_detailed[parseInt(hour)] += ms_played;
+                    }
                 });
             });
+            var hours_since_start_date = 50327;
+            var days_since_start_date = 2096;
+            var weeks_since_start_date = 299;
+            var months_since_start_date = 69;
+            var years_since_start_date = 5.74;
             for (let i = 0; i < 24; i++) {
-                total_listen_time_per_hour[i] *= 1.66667e-5;
-                total_listen_time_per_hour[i] /= 2096;
+                listen_time_per_hour_detailed[i] *= 1.66667e-5;
+                listen_time_per_hour_detailed[i] /= days_since_start_date;
             }
             var total_sessions = total_sessions.sort(function (a, b) {
                 if (a[0] == b[0]) return a[1] - b[1];
                 return a[0] - b[0];
             });
-            // console.log(total_listen_time_per_hour);
-            console.log(total_sessions);
-            console.log(session_lengths);
+            var sessions_detailed = {};
+            total_sessions.forEach(([start, end]) => {
+                if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
+                else sessions_detailed[[start, end]] = 1;
+            });
+            // convert ms to hh:mm:ss
+            function msToTime(s) {
+                // Pad to 2 or 3 digits, default is 2
+                var pad = (n, z = 2) => ('00' + n).slice(-z);
+                return pad(s / 3.6e6 | 0) + ':' + pad((s % 3.6e6) / 6e4 | 0) + ':' + pad((s % 6e4) / 1000 | 0) + '.' + pad(s % 1000, 3);
+            }
+            // convert ms to dd:hh:mm
+            function dhm(t) {
+                var cd = 24 * 60 * 60 * 1000,
+                    ch = 60 * 60 * 1000,
+                    d = Math.floor(t / cd),
+                    h = Math.floor((t - d * cd) / ch),
+                    m = Math.round((t - d * cd - h * ch) / 60000),
+                    pad = function (n) { return n < 10 ? '0' + n : n; };
+                if (m === 60) {
+                    h++;
+                    m = 0;
+                }
+                if (h === 24) {
+                    d++;
+                    h = 0;
+                }
+                return [d, pad(h), pad(m)].join(':');
+            }
+            var average_listen_time_per_hour = total_listen_time / hours_since_start_date;
+            var average_listen_time_per_day = total_listen_time / days_since_start_date;
+            var average_listen_time_per_week = total_listen_time / weeks_since_start_date;
+            var average_listen_time_per_month = total_listen_time / months_since_start_date;
+            var average_listen_time_per_year = total_listen_time / years_since_start_date;
+            // console.log(listen_time_per_hour_detailed);
+            // console.log("average hour: " + msToTime(average_listen_time_per_hour));
+            // console.log("average day: " + msToTime(average_listen_time_per_day));
+            // console.log("average week: " + msToTime(average_listen_time_per_week));
+            // console.log("average month: " + msToTime(average_listen_time_per_month));
+            // console.log("average year: " + dhm(average_listen_time_per_year) + " (dd:hh:mm)");
+            // console.log(total_sessions);
+            // console.log(sessions_detailed);
+            // console.log(session_lengths);
 
             // average number of albums listened to per artists, songs listened to per album
             var total_artists = 0;
@@ -274,7 +326,6 @@
             // console.log("average number of albums listened to per artist: " + average_albums_per_artist);
             // console.log("average number of songs listened to per artist: " + average_songs_per_artist);
             // console.log("average number of songs listened to per album: " + average_songs_per_album);
-
 
         });
 
