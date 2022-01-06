@@ -3,12 +3,21 @@
 ## Questions auxquelles nous allons tenter de répondre
 
 Variation dans les habitudes d'écoute :
-- Beaucoup d'artistes & peu de chansons par artiste (large) vs. l'inverse (profond) : songs_albums_listens
-- Eclectique en genres musicaux ou plutôt chauvin : aller chercher les genres de l'artiste dans l'api (search artiste) en question, les append aux artistes de l'objet "songs_albums_listens" (1er niveau de hiérachie)
-- Tendance à écouter des albums (presque au complet) ou des playlists avec seulement quelques chansons par artiste : regarder dans songs_albums_listens à quel point les albums sont "peuplés", i.e. comparer le nombre de chansons écoutées d'un albums à 10 (arbitraire)
-- Artistes populaires vs. exploration : champ popularity dans l'api avec requête search de l'artiste
-- Pour un artiste, rester sur ses chansons les plus écoutées ou explorer son répertoire : requete artist top tracks api, compare ça aux chansons écoutées dans "songs_albums_listens"
-- Différences dans le temps d'écoute (par jour, par session, etc.) : chronology
+- Beaucoup d'artistes & peu de chansons par artiste (large) vs. l'inverse (profond). Données : listing. Visu : Histogramme, chansons par artistes (ordonnées), Raf et Guillaume en abscisses, donc 2 barres
+- Eclectique en genres musicaux ou plutôt chauvin. Présence des generes dans tous les artistes écoutés. Données : listing. Visu : Camembert du nombre de fois qu'on retrouve chaque genre dans tous les artistes. Ex : Rock : 68% des artistes
+- Taux de chansons populaires par artiste. Données : listing. Visu : Courbes, artistes en abscisses, Taux de top tracks en ordonnée
+- Popularité des artistes. Données : Listing. Visu : Courbes, artistes en abscisses, Taux de popularité en ordonnée
+- Différences dans liées au temps d'écoute :
+    Depuis le début :
+    - taux d'écoute total depuis la première date dans chronology (dd:hh:mm)
+    - taux d'écoute moyen par heure, jour, semaine, mois, année
+    - taux d'écoute moyen par heure, détaillé. Données : liste_time_per_hour_detailed. Visu : circular bar plot
+    - sessions : 
+        - durée des sessions au total. Données : session_lengths. Visu : horizontal bar chart, avec durée session en ordonnée, et nombre de sessions de cette durée en abscisse.
+        - répartition de sessions dans le temps, en intervalles. Données : sessions_detailed. Visu : arc diagram, heures en "abscisses". Eventuellement diviser par 10 le nombre d'arcs
+- Etude de la présence des artistes dans la chronologie. Données : chronology. Visu : Bar chart du nombre d'écoute par artiste (ordonées) depuis le début (temps en abscisses)
+
+
 
 ## Format du json
 
