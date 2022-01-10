@@ -82,6 +82,21 @@
 
     </section>
 
+    <section class="Graphe_4">
+        <div class ="box">
+            <div id="bar4_chart_1" ></div>
+            <div id="bar4_chart_2"></div>
+        </div>
+    </section>
+
+    <section class="Graphe_5">
+        <div class ="box">
+            <div id="circular_plot_1" ></div>
+            <div id="circular_plot_2"></div>
+        </div>
+    </section>
+
+
     <script>
 
         //lignes Artiste, album, chansons 
@@ -111,6 +126,8 @@
 
             console.log("Listing_G")
             console.log(listing_G);
+            console.log("chronology_G")
+            console.log(chronology_G);
 
             // console.log(listing_R);
             // console.log(chronology_G);
@@ -209,6 +226,15 @@
                 // total listening time from the beginning
                 console.log("total listen time");
                 console.log(dhm(total_listen_time) + " (dd:hh:mm)");
+
+                csv_listen_time_per_hour_detailed = [["Heures","Temps"]]
+
+                for(i in listen_time_per_hour_detailed){
+                    csv_listen_time_per_hour_detailed.push([i,listen_time_per_hour_detailed[i]])
+                }
+                console.log(csv_listen_time_per_hour_detailed)
+
+                circular_plot_5(csv_listen_time_per_hour_detailed,"circular_plot_"+id,id)
             }
 
             // average number of albums listened to per artists, songs per album, songs per artists
@@ -240,6 +266,7 @@
 
                 genres(listing)
                 artisteTop(listing)
+                artistePop(listing)
 
             }
 
@@ -269,28 +296,50 @@
             histogram_1(bar_plot_1)
             //drawPieChart(1,"pie_chart_0")
             //drawPieChart(1,"pie_chart_1")
-
+            
             
             //courbe_3(1,"curve_2")
 
         });
 
+        function artistePop(listing){
+
+            //console.log("Artiste Pop")
+
+            tabArtistePop = [["artist","pop"]]
+            //Proportion = nb total d'un genre / total des genres par artiste
+
+            Object.keys(listing).forEach(function (artist) {
+                    //tabArtisteTop[artist] = listing[artist].taux_top_track
+                    tabArtistePop.push([artist,listing[artist].popularity])
+                });
+
+            //console.log(tabArtistePop)
+
+            barchart4(tabArtistePop,"bar4_chart_"+id,id)
+
+
+        }
+
+
         function artisteTop(listing){
 
             console.log("Artiste Top")
 
-            tabArtisteTop = {}
+            tabArtisteTop = [["artist","top"]]
             //Proportion = nb total d'un genre / total des genres par artiste
 
             Object.keys(listing).forEach(function (artist) {
-                    tabArtisteTop[artist] = listing[artist].taux_top_track
+                    //tabArtisteTop[artist] = listing[artist].taux_top_track
+                    tabArtisteTop.push([artist,listing[artist].taux_top_track])
                 });
             
             console.log(tabArtisteTop)
 
-            courbe_3(tabArtisteTop,"curve_"+id)
+            courbe_3(tabArtisteTop,"curve_"+id,id)
 
         }
+
 
         function genres(listing){
             console.log("Genres")
@@ -320,8 +369,6 @@
         function histogram_1(data){
             //Bar plot
 
-            //console.log(bar_plot_1)
-
             let csvContent = "data:text/csv;charset=utf-8," +
                 data.map(e => e.join(",")).join("\n");
 
@@ -346,7 +393,6 @@
 
             dataCsv.then(function(data)
             {
-            console.log(data)
             
             // X axis
             var x = d3.scaleBand()
@@ -381,14 +427,190 @@
 
         }
 
+        function circular_plot_5(data,divName,id){
 
-        function courbe_3(data,divName){
-
-            //console.log(data.keys)
-            dataX = Object.keys(data);
-            dataY = Object.values(data);
-
+            let csvContent = "" +
+                data.map(e => e.join(",")).join("\n");
             
+            //console.log(csvContent)
+
+            // set the dimensions and margins of the graph
+            var margin = {top: 100, right: 0, bottom: 0, left: 0},
+                width = 460 - margin.left - margin.right,
+                height = 460 - margin.top - margin.bottom,
+                innerRadius = 90,
+                outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
+
+            // append the svg object
+            var svg = d3.select("#"+divName)
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
+
+            datacsv = d3.csv("./graph_data/data_5_"+id+".csv");
+            
+            datacsv.then(function(data) {
+
+            // Scales
+            var x = d3.scaleBand()
+                .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
+                .align(0)                  // This does nothing
+                .domain(data.map(function(d) { return d.Heures; })); // The domain of the X axis is the list of states.
+            var y = d3.scaleRadial()
+                .range([innerRadius, outerRadius])   // Domain will be define later.
+                .domain([0, 14000]); // Domain of Y is from 0 to the max seen in the data
+
+            // Add the bars
+            svg.append("g")
+                .selectAll("path")
+                .data(data)
+                .enter()
+                .append("path")
+                .attr("fill", "#69b3a2")
+                .attr("d", d3.arc()     // imagine your doing a part of a donut plot
+                    .innerRadius(innerRadius)
+                    .outerRadius(function(d) { 
+                        return y(d['Temps']); })
+                    .startAngle(function(d) { return x(d.Heures); })
+                    .endAngle(function(d) { return x(d.Heures) + x.bandwidth(); })
+                    .padAngle(0.01)
+                    .padRadius(innerRadius))
+
+            // Add the labels
+            svg.append("g")
+                .selectAll("g")
+                .data(data)
+                .enter()
+                .append("g")
+                    .attr("text-anchor", function(d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+                    .attr("transform", function(d) { return "rotate(" + ((x(d.Heures) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(d['Temps'])+10) + ",0)"; })
+                .append("text")
+                    .text(function(d){return(d.Heures)})
+                    .attr("transform", function(d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+                    .style("font-size", "11px")
+                    .attr("alignment-baseline", "middle")
+
+            });
+
+        }
+
+        function barchart4(data,divName,owner){
+
+            let csvContent = "" +
+                data.map(e => e.join(",")).join("\n");
+
+            // set the dimensions and margins of the graph
+            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#"+divName)
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");   
+                    
+            // Parse the Data
+            var dataCsv = d3.csv("./graph_data/data_4_"+owner+".csv"); 
+
+            dataCsv.then(function(data)
+            {
+
+            // X axis
+            var x = d3.scaleBand()
+            .range([ 0, width ])
+            .domain(data.map(d => d.artist))
+            .padding(0.2);
+            svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.pop)])
+            .range([ height, 0]);
+            svg.append("g")
+            .call(d3.axisLeft(y));
+
+            // Bars
+            svg.selectAll("mybar")
+            .data(data)
+            .enter()
+            .append("rect")
+                .attr("x", function(d) { return x(d.artist); })
+                .attr("y", function(d) { return y(d.pop); })
+                .attr("width", x.bandwidth())
+                .attr("height", function(d) { return height - y(d.pop); })
+                .attr("fill", "#69b3a2")
+            })
+
+
+        }
+
+
+        function courbe_3(data,divName,owner){
+
+            let csvContent = "" +
+                data.map(e => e.join(",")).join("\n");
+
+            // set the dimensions and margins of the graph
+            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#"+divName)
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");   
+                    
+            // Parse the Data
+            var dataCsv = d3.csv("./graph_data/data_3_"+owner+".csv"); 
+
+            dataCsv.then(function(data)
+            {
+
+            // X axis
+            var x = d3.scaleBand()
+            .range([ 0, width ])
+            .domain(data.map(d => d.artist))
+            .padding(0.2);
+            svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.top)])
+            .range([ height, 0]);
+            svg.append("g")
+            .call(d3.axisLeft(y));
+
+            // Bars
+            svg.selectAll("mybar")
+            .data(data)
+            .enter()
+            .append("rect")
+                .attr("x", function(d) { return x(d.artist); })
+                .attr("y", function(d) { return y(d.top); })
+                .attr("width", x.bandwidth())
+                .attr("height", function(d) { return height - y(d.top); })
+                .attr("fill", "#69b3a2")
+            })
 
         }
 
