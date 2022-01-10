@@ -41,6 +41,14 @@
             font-size: 16px;
             line-height: 1.5;
             color: #606c71;
+            text-align: center;
+        }
+
+        .box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 2em;
+            text-align: center;
         }
 
     </style>
@@ -50,7 +58,41 @@
 		<h3 class="project-tagline">Bachourian Rafael & Baulard Guillaume & Perreaut Florian</h2>
 	</section>
 
+    <section class="Question_1">
+        <div class ="box">
+            <div>AAAAAAAAAAA</div>
+            <div id="histo_1"></div>
+        </div>
+    </section>
+
+    <section class="Question_2">
+
+        <div class ="box">
+            <div id="pie_chart_1" ></div>
+            <div id="pie_chart_2"></div>
+        </div>
+
+    </section>
+
+    <section class="Question_3">
+        <div class ="box">
+            <div id="curve_1" ></div>
+            <div id="curve_2"></div>
+        </div>
+
+    </section>
+
     <script>
+
+        //lignes Artiste, album, chansons 
+        data_graph_1 = [["Artiste","Album","Chanson"]]
+        bar_plot_1 = [["Prenom","Valeur"]]
+
+        pie_chart_2 = []
+
+
+        Prenom = "None"
+        id = 1
 
         Promise.all([
 
@@ -67,7 +109,9 @@
 
             delete chronology_R['2014-12-25'];
 
-            // console.log(listing_G);
+            console.log("Listing_G")
+            console.log(listing_G);
+
             // console.log(listing_R);
             // console.log(chronology_G);
             // console.log(chronology_R);
@@ -79,7 +123,7 @@
                 return pad(s / 3.6e6 | 0) + ':' + pad((s % 3.6e6) / 6e4 | 0) + ':' + pad((s % 6e4) / 1000 | 0) + '.' + pad(s % 1000, 3);
             }
             // convert ms to dd:hh:mm
-            function dhm(t) {
+            function dhm(t) {Promise
                 var cd = 24 * 60 * 60 * 1000,
                     ch = 60 * 60 * 1000,
                     d = Math.floor(t / cd),
@@ -128,7 +172,7 @@
                 var total_sessions = total_sessions.sort(function (a, b) {
                     if (a[0] == b[0]) return a[1] - b[1];
                     return a[0] - b[0];
-                });
+                });pie_chart_1
                 var sessions_detailed = {};
                 total_sessions.forEach(([start, end]) => {
                     if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
@@ -190,8 +234,16 @@
                 console.log("average number of albums listened to per artist: " + average_albums_per_artist);
                 console.log("average number of songs listened to per artist: " + average_songs_per_artist);
                 console.log("average number of songs listened to per album: " + average_songs_per_album);
+                
+                data_graph_1[id] = [total_artists,total_albums,total_songs]
+                bar_plot_1[id] = [Prenom,average_songs_per_artist]
+
+                genres(listing)
+                artisteTop(listing)
+
             }
 
+            Prenom = "Guillaume"
             since_start_date_G = {};
             since_start_date_G['hours_since_start_date'] = 50327;
             since_start_date_G['days_since_start_date'] = 2096;
@@ -207,10 +259,194 @@
             since_start_date_R['weeks_since_start_date'] = 332;
             since_start_date_R['months_since_start_date'] = 76;
             since_start_date_R['years_since_start_date'] = 6.38;
+            Prenom = "Rafael"
+            id +=1
             console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
 
+            //Draw graph
+            histogram_1(bar_plot_1)
+            //drawPieChart(1,"pie_chart_0")
+            //drawPieChart(1,"pie_chart_1")
+
+            
+            //courbe_3(1,"curve_2")
+
         });
+
+        function artisteTop(listing){
+
+            console.log("Artiste Top")
+
+            tabArtisteTop = {}
+            //Proportion = nb total d'un genre / total des genres par artiste
+
+            Object.keys(listing).forEach(function (artist) {
+                    tabArtisteTop[artist] = listing[artist].taux_top_track
+                });
+            
+            console.log(tabArtisteTop)
+
+            courbe_3(tabArtisteTop,"curve_"+id)
+
+        }
+
+        function genres(listing){
+            console.log("Genres")
+
+            tabGenres = {}
+            //Proportion = nb total d'un genre / total des genres par artiste
+            total_genres = 0
+            Object.keys(listing).forEach(function (artist) {
+                    total_genres += listing[artist].genres.length
+                    //console.log(listing[artist].genres)
+                    for(genre in listing[artist].genres){
+                        if(tabGenres[listing[artist].genres[0]] === undefined){
+                            tabGenres[listing[artist].genres[0]]=1
+                        }else{
+                            tabGenres[listing[artist].genres[0]]+=1
+                        }
+                    }
+                });
+            
+            console.log("total genders "+total_genres)
+            console.log(tabGenres)
+            
+            drawPieChart(tabGenres,"pie_chart_"+id)
+
+        }
+
+        function histogram_1(data){
+            //Bar plot
+
+            //console.log(bar_plot_1)
+
+            let csvContent = "data:text/csv;charset=utf-8," +
+                data.map(e => e.join(",")).join("\n");
+
+            //console.log(csvContent)
+
+            // set the dimensions and margins of the graph
+            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#histo_1")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");   
+                    
+            // Parse the Data
+            var dataCsv = d3.csv("./graph_data/data_1.csv"); 
+
+            dataCsv.then(function(data)
+            {
+            console.log(data)
+            
+            // X axis
+            var x = d3.scaleBand()
+            .range([ 0, width ])
+            .domain(data.map(d => d.Prenom))
+            .padding(0.2);
+            svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.Valeur)])
+            .range([ height, 0]);
+            svg.append("g")
+            .call(d3.axisLeft(y));
+
+            // Bars
+            svg.selectAll("mybar")
+            .data(data)
+            .enter()
+            .append("rect")
+                .attr("x", function(d) { return x(d.Prenom); })
+                .attr("y", function(d) { return y(d.Valeur); })
+                .attr("width", x.bandwidth())
+                .attr("height", function(d) { return height - y(d.Valeur); })
+                .attr("fill", "#69b3a2")
+            })
+
+        }
+
+
+        function courbe_3(data,divName){
+
+            //console.log(data.keys)
+            dataX = Object.keys(data);
+            dataY = Object.values(data);
+
+            
+
+        }
+
+
+        function drawPieChart(data,divName){
+
+            var genres = Object.keys(data);
+                
+            var data=Object.values(data)
+
+            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#"+divName)
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+
+
+            // Creating Pie generator
+            var pie = d3.pie();
+
+            // Creating arc
+            var arc = d3.arc()
+                        .innerRadius(0)
+                        .outerRadius(100);
+
+            let g = svg.append("g")
+                        .attr("transform", "translate(150,120)");
+
+            // Grouping different arcs
+            var arcs = g.selectAll("arc")
+                        .data(pie(data))
+                        .enter()
+                        .append("g");
+
+            // Appending path 
+            arcs.append("path")
+                .attr("fill", (data, i)=>{
+                    let value=data.data;
+                    return d3.schemeSet3[i+1];
+                })
+                .attr("d", arc);
+                
+            // Adding data to each arc
+            arcs.append("text")
+                .attr("transform",(d)=>{ 
+                        return "translate("+ 
+                        arc.centroid(d) + ")"; 
+                })
+                //.data(pie(genres)) //ajout nom genre
+                .text(function(d){
+                    return d.data; 
+                    });
+        }
+
+
     </script>
 </body>
