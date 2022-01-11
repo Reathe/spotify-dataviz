@@ -38,7 +38,7 @@
         }
 
         body {
-            /* background-color: #ffffff; */
+            /* background-color: #2b2a2a; */
             background-color: #191414;
             font-family: Gotham;
             padding: 0;
@@ -54,11 +54,30 @@
             color: #606c71;
         }
 
+        .name{
+            grid-area: a;
+        }
+        .name2{
+            grid-area: b;
+        }
+        .graph{
+            grid-area: c;
+            color: #606c71;
+        }
+        .graph2{
+            grid-area: d;
+            color: #606c71;
+        }
+        .green{
+            color: #1DB954;
+            margin-left: 15em;
+            margin-top: 3em
+        }
         .box {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px 2em;
-            text-align: center;
+            text-align: center top  ;
         }
 
         /* div.box2>div {
@@ -86,6 +105,16 @@
             font: 12px sans-serif;
             max-width: 300px;
         }
+        .container {
+            margin-top: 30px;
+            align-items: start;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+            grid-template-areas:
+                "a b"
+                "c d";
+        }
     </style>
 
     <section class="page-header">
@@ -100,8 +129,10 @@
             le fait de revenir toujours vers les mêmes "valeurs sûres".
             A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
         </div>
-        <div class="box">
-            <div>Statistiques générales
+        <div class="container">
+            <div class="name">Statistiques générales</div>
+            <div class="name2">Moyenne du nombre de chansons écoutées par artiste</div>
+            <div class ="graph green">
                 <div class="container">
                     <table>
                         <thead>
@@ -129,7 +160,7 @@
                     </table>
                 </div>
             </div>
-            <div id="histo_1">Moyenne du nombre de chansons écoutées par artiste</div>
+            <div class="graph2" id="histo_1"></div>
         </div>
     </section>
 
@@ -140,9 +171,12 @@
             A-t-on beaucoup de genres qui s'étendent sur tout le spectre musical ou une rotation de seulement quelques
             genres qui monopolisent tous les artistes ?
         </div>
-        <div class="box">
-            <div id="pie_chart_1"></div>
-            <div id="pie_chart_2"></div>
+        <div class="container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+
+            <div class="graph" id="pie_chart_1"></div>
+            <div class="graph2" id="pie_chart_2"></div>
         </div>
 
     </section>
@@ -158,9 +192,12 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="box2">
-            <div id="curve_1">Guillaume</div>
-            <div id="curve_2">Rafael</div>
+        <div class="box2 container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+
+            <div class="graph" id="curve_1"></div>
+            <div class="graph2" id="curve_2"></div>
         </div>
 
     </section>
@@ -174,9 +211,11 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-        <div class="box2">
-            <div id="bar4_chart_1"></div>
-            <div id="bar4_chart_2"></div>
+        <div class="box2 container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="bar4_chart_1"></div>
+            <div class="graph2" id="bar4_chart_2"></div>
         </div>
     </section>
 
@@ -186,9 +225,11 @@
         <div class="topo">
             Il s'agit des variations de temps d'écoute dans la journée.
         </div>
-        <div class="box">
-            <div id="circular_plot_1"></div>
-            <div id="circular_plot_2"></div>
+        <div class="box container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="circular_plot_1"></div>
+            <div class="graph2" id="circular_plot_2"></div>
         </div>
     </section>
 
@@ -198,9 +239,11 @@
             Une session est définir par la présence d'écoutes dans des heures consécutives. On montre ici comment les
             sessions se sont étendues dans la journée.
         </div>
-        <div class="box">
-            <div id="arc_diagram_1"></div>
-            <div id="arc_diagram_2"></div>
+        <div class="box container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="arc_diagram_1"></div>
+            <div class="graph2" id="arc_diagram_2"></div>
         </div>
     </section>
 
@@ -668,7 +711,6 @@
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
                         div.html(d.data)
-
                     })
                     .on("mouseout", function (event, d) {
                         div.transition()
@@ -687,7 +729,7 @@
             // set the dimensions and margins of the graph
             const margin = { top: 0, right: 30, bottom: 20, left: 30 },
                 width = 500 - margin.left - margin.right,
-                height = 500 - margin.top - margin.bottom;
+                height = 260 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divName)
@@ -719,7 +761,7 @@
                     .attr("cx", d => x(d.name))
                     .attr("cy", height - 30)
                     .attr("r", 8)
-                    .style("fill", "#69b3a2")
+                    .style("fill", "#1DB954")
 
                 // And give them a label
                 svg
@@ -731,6 +773,7 @@
                     .attr("y", height - 10)
                     .text(d => d.name)
                     .style("text-anchor", "middle")
+                    .style("fill", "#606c71")
 
                 // Add links between nodes. Here is the tricky part.
                 // In my input data, links are provided between nodes -id-, NOT between node names.
@@ -758,7 +801,7 @@
                             .join(' ');
                     })
                     .style("fill", "none")
-                    .attr("stroke", "black")
+                    .attr("stroke", "#606c71")
             })
         }
 
@@ -905,6 +948,7 @@
                     .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
+                    .attr("fill", "#606c71")
 
                 // inner labels
                 svg.append("g")
@@ -919,6 +963,7 @@
                     .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(0)" : "rotate(180)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
+                    .attr("fill", "#606c71")
 
             });
 
@@ -1128,7 +1173,9 @@
                 .text(function (d, i) {
                     if (d.endAngle - d.startAngle > 0.3)
                         return genres[i];
-                })
+                })                
+                .style("fill", "#606c71")
+
         }
 
 
