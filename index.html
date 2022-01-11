@@ -38,8 +38,8 @@
         }
 
         body {
-            background-color: #ffffff;
-            /* background-color: #191414; */
+            /* background-color: #ffffff; */
+            background-color: #191414;
             font-family: Gotham;
             padding: 0;
             margin: 0;
@@ -71,17 +71,18 @@
             gap: 10px 2em;
             text-align: center;
         }
+
         .tooltip {
             position: absolute;
-            opacity:0.8;
-            z-index:1000;
-            text-align:left;
-            border-radius:4px;
-            -moz-border-radius:4px;
-            -webkit-border-radius:4px;
-            padding:8px;
-            color:#fff;
-            background-color:#000;
+            opacity: 0.8;
+            z-index: 1000;
+            text-align: left;
+            border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            padding: 8px;
+            color: #fff;
+            background-color: #000;
             font: 12px sans-serif;
             max-width: 300px;
         }
@@ -100,7 +101,34 @@
             A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
         </div>
         <div class="box">
-            <div>Statistiques générales</div>
+            <div>Statistiques générales
+                <div class="container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total artistes</th>
+                                <th>Total albums</th>
+                                <th>Total chansons</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Guillaume</td>
+                                <td class="topo" id="artistes_G"></td>
+                                <td class="topo" id="albums_G"></td>
+                                <td class="topo" id="chansons_G"></td>
+                            </tr>
+                            <tr>
+                                <td>Rafael</td>
+                                <td class="topo" id="artistes_R"></td>
+                                <td class="topo" id="albums_R"></td>
+                                <td class="topo" id="chansons_R"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div id="histo_1">Moyenne du nombre de chansons écoutées par artiste</div>
         </div>
     </section>
@@ -193,7 +221,7 @@
     <script>
 
         //lignes Artiste, album, chansons
-        data_graph_1 = [["Artiste", "Album", "Chanson"]]
+        data_graph_1 = [[]];
         bar_plot_1 = [["Prenom", "Valeur"]]
 
         pie_chart_2 = []
@@ -378,6 +406,7 @@
                 // console.log("average number of songs listened to per album: " + average_songs_per_album);
 
                 data_graph_1[id] = [total_artists, total_albums, total_songs]
+                console.log(data_graph_1[1])
                 bar_plot_1[id] = [Prenom, average_songs_per_artist]
 
                 genres(listing)
@@ -413,6 +442,12 @@
             //csvGraphe7(listing_R,chronology_R)
             stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
+            document.getElementById("artistes_G").textContent = data_graph_1[1][0];
+            document.getElementById("albums_G").textContent = data_graph_1[1][1];
+            document.getElementById("chansons_G").textContent = data_graph_1[1][2];
+            document.getElementById("artistes_R").textContent = data_graph_1[2][0];
+            document.getElementById("albums_R").textContent = data_graph_1[2][1];
+            document.getElementById("chansons_R").textContent = data_graph_1[2][2];
 
             //Draw graph
             histogram_1(bar_plot_1)
@@ -505,13 +540,13 @@
 
             tabGraphe7 = [nomArtistes]
 
-            zero = new Array(nomArtistes.length-1).fill(0);
+            zero = new Array(nomArtistes.length - 1).fill(0);
 
             for (jour in chronology) {
-                mois = jour.substr(0,7);
+                mois = jour.substr(0, 7);
                 exists = false;
-                for (ligne in tabGraphe7){
-                    if (tabGraphe7[ligne][0] == mois){
+                for (ligne in tabGraphe7) {
+                    if (tabGraphe7[ligne][0] == mois) {
                         exists = true;
                         break;
                     }
@@ -531,18 +566,18 @@
                         if (tabGraphe7[0][val] == chronology[jour][ecoute].artist) {
                             //console.log("Test")
                             for (let j = 1; j < tabGraphe7.length; j++) {
-                                if (tabGraphe7[j][0] == mois){
+                                if (tabGraphe7[j][0] == mois) {
                                     tabGraphe7[j][val] += 1
                                 }
                             }
-                            
+
                         }
                     }
 
                 }
             }
             temp = tabGraphe7.shift();
-            tabGraphe7.sort(function cmp(a,b) {
+            tabGraphe7.sort(function cmp(a, b) {
                 if (a[0] < b[0])
                     return -1;
                 if (a[0] > b[0])
@@ -1015,10 +1050,10 @@
 
             ndata = {}
             ndata["other"] = 0
-            for (d in data){
+            for (d in data) {
                 //On garde seulement les genres qui sont > à 1/25 du total
                 //Les reste est dans la catégorie "other"
-                if (data[d] < tot/50){
+                if (data[d] < tot / 50) {
                     ndata["other"] = data[d] + ndata["other"]
                 } else {
                     ndata[d] = data[d]
