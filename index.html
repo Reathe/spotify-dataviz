@@ -105,8 +105,8 @@
 
     <section class="Graphe_7">
         <div class ="box">
-            <div id="arc_diagram_1" ></div>
-            <div id="arc_diagram_2"></div>
+            <div id="stacked_barplot_1" ></div>
+            <div id="stacked_barplot_2"></div>
         </div>
     </section>
 
@@ -269,6 +269,7 @@
                 //console.log(JSON.stringify(json_sessions_detailed))
 
                 arc_diagram_6(1,"arc_diagram_"+id,id)
+
             }
 
             // average number of albums listened to per artists, songs per album, songs per artists
@@ -314,6 +315,7 @@
             console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
+            csvGraphe7(listing_G,chronology_G)
             since_start_date_R = {};
             since_start_date_R['hours_since_start_date'] = 55943;
             since_start_date_R['days_since_start_date'] = 2330;
@@ -325,6 +327,7 @@
             console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
+            csvGraphe7(listing_R,chronology_R)
 
             //Draw graph
             histogram_1(bar_plot_1)
@@ -397,6 +400,128 @@
             console.log(tabGenres)
             
             drawPieChart(tabGenres,"pie_chart_"+id)
+
+        }
+
+
+        function csvGraphe7(listing,chronology){
+
+            console.log("Graphe 7")
+
+            nomArtistes = []
+            //Proportion = nb total d'un genre / total des genres par artiste
+
+            Object.keys(listing).forEach(function (artist) {
+                    //tabArtisteTop[artist] = listing[artist].taux_top_track
+                    nomArtistes.push(artist)
+                });
+
+            nomArtistes.unshift("Jour")
+
+            tabGraphe7 = [nomArtistes]
+
+            zero = new Array(nomArtistes.length).fill(0);
+
+            for(jour in chronology){
+                tabGraphe7.push([jour].concat(zero))
+            }
+
+            j = 1
+            for(jour in chronology){
+                for(heure in chronology[jour]){
+                    //console.log(chronology[jour][heure].artist)
+
+                    for(val in tabGraphe7[0]){
+                        //console.log(chronology[jour].artist)
+                        if(tabGraphe7[0][val] == chronology[jour][heure].artist){
+                            //console.log("Test")
+                            tabGraphe7[j][val] += 1
+                        }
+                    }
+
+                }
+
+                j+=1
+            }
+
+            console.log(tabGraphe7)
+
+            let csvContent = "" +
+            tabGraphe7.map(e => e.join(",")).join("\n");
+
+            //console.log(csvContent)
+
+             stacked_barplot_7(1,"stacked_barplot_"+id,id)
+        }
+
+
+        function stacked_barplot_7(data,divname,owner){
+
+            // set the dimensions and margins of the graph
+            const margin = {top: 10, right: 30, bottom: 20, left: 50},
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            const svg = d3.select("#"+divname)
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Parse the Data
+            d3.csv("./graph_data/data_7_"+owner+".csv").then( function(data) {
+
+            // List of subgroups = header of the csv files = soil condition here
+            const subgroups = data.columns.slice(1)
+
+            // List of groups = species here = value of the first column called group -> I show them on the X axis
+            const groups = data.map(d => (d.Jour))
+
+            // Add X axis
+            const x = d3.scaleBand()
+                .domain(groups)
+                .range([0, width])
+                .padding([0.2])
+            svg.append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .call(d3.axisBottom(x).tickSizeOuter(0));
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([0, 60])
+                .range([ height, 0 ]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            // color palette = one color per subgroup
+            const color = d3.scaleOrdinal()
+                .domain(subgroups)
+                .range(['#e41a1c','#377eb8','#4daf4a'])
+
+            //stack the data? --> stack per subgroup
+            const stackedData = d3.stack()
+                .keys(subgroups)
+                (data)
+
+            // Show the bars
+            svg.append("g")
+                .selectAll("g")
+                // Enter in the stack data = loop key per key = group per group
+                .data(stackedData)
+                .join("g")
+                .attr("fill", d => color(d.key))
+                .selectAll("rect")
+                // enter a second time = loop subgroup per subgroup to add all rectangles
+                .data(d => d)
+                .join("rect")
+                    .attr("x", d => x(d.data.Jour))
+                    .attr("y", d => y(d[1]))
+                    .attr("height", d => y(d[0]) - y(d[1]))
+                    .attr("width",x.bandwidth())
+            })
+
 
         }
 
