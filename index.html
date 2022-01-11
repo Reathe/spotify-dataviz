@@ -575,6 +575,8 @@
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
             const div = d3.select("#" + divname).append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
@@ -603,7 +605,6 @@
                 // color palette = one color per subgroup
                 var color = d3.scaleOrdinal().domain(subgroups)
                     .range(d3.schemeSet3);
-                    .range(['#e41a1c', '#377eb8', '#4daf4a'])
 
                 //stack the data? --> stack per subgroup
                 const stackedData = d3.stack()
@@ -638,7 +639,8 @@
                         div.transition()
                             .duration(500)
                             .style("opacity", 0);
-                    });
+                    })
+                    ;
             })
 
 
