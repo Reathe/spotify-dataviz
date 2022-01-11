@@ -70,6 +70,7 @@
             grid-template-columns: 1fr 2fr;
             gap: 10px 2em;
             text-align: center;
+        }
         .tooltip {
             position: absolute;
             opacity:0.8;
@@ -345,7 +346,7 @@
                     //console.log(spl)
                     json_sessions_detailed["links"].push({ "source": spl[0], "target": spl[1], "value": sessions_detailed[i] })
                 }
-                //console.log(json_sessions_detailed)
+                //console.log("json_sessions_detailed")
                 //console.log(JSON.stringify(json_sessions_detailed))
 
                 arc_diagram_6(1, "arc_diagram_" + id, id)
@@ -395,7 +396,9 @@
             // console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            csvGraphe7(listing_G, chronology_G);
+            //csvGraphe7(listing_G, chronology_G);
+            stacked_barplot_7(1, "stacked_barplot_" + id, id)
+
             since_start_date_R = {};
             since_start_date_R['hours_since_start_date'] = 55943;
             since_start_date_R['days_since_start_date'] = 2330;
@@ -408,6 +411,8 @@
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
             //csvGraphe7(listing_R,chronology_R)
+            stacked_barplot_7(1, "stacked_barplot_" + id, id)
+
 
             //Draw graph
             histogram_1(bar_plot_1)
@@ -451,7 +456,7 @@
                 tabArtisteTop.push([artist, listing[artist].taux_top_track])
             });
 
-            console.log(tabArtisteTop)
+            //console.log(tabArtisteTop)
 
             courbe_3(tabArtisteTop, "curve_" + id, id)
 
@@ -496,42 +501,62 @@
                 nomArtistes.push(artist)
             });
 
-            nomArtistes.unshift("Jour")
+            nomArtistes.unshift("Mois")
 
             tabGraphe7 = [nomArtistes]
 
-            zero = new Array(nomArtistes.length).fill(0);
+            zero = new Array(nomArtistes.length-1).fill(0);
 
             for (jour in chronology) {
-                tabGraphe7.push([jour].concat(zero))
+                mois = jour.substr(0,7);
+                exists = false;
+                for (ligne in tabGraphe7){
+                    if (tabGraphe7[ligne][0] == mois){
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists)
+                    tabGraphe7.push([mois].concat(zero));
             }
+            console.log(tabGraphe7)
 
-            j = 1
             for (jour in chronology) {
-                for (heure in chronology[jour]) {
-                    //console.log(chronology[jour][heure].artist)
+                mois = jour.substr(0, 7)
+                for (ecoute in chronology[jour]) {
+                    //console.log(chronology[jour][ecoute].artist)
 
                     for (val in tabGraphe7[0]) {
                         //console.log(chronology[jour].artist)
-                        if (tabGraphe7[0][val] == chronology[jour][heure].artist) {
+                        if (tabGraphe7[0][val] == chronology[jour][ecoute].artist) {
                             //console.log("Test")
-                            tabGraphe7[j][val] += 1
+                            for (let j = 1; j < tabGraphe7.length; j++) {
+                                if (tabGraphe7[j][0] == mois){
+                                    tabGraphe7[j][val] += 1
+                                }
+                            }
+                            
                         }
                     }
 
                 }
-
-                j += 1
             }
-
-            console.log(tabGraphe7)
+            temp = tabGraphe7.shift();
+            tabGraphe7.sort(function cmp(a,b) {
+                if (a[0] < b[0])
+                    return -1;
+                if (a[0] > b[0])
+                    return 1;
+                return 0;
+            })
+            tabGraphe7.unshift(temp);
+            //console.log("tabGraphe7")
+            //console.log(JSON.stringify(tabGraphe7))
 
             let csvContent = "" +
                 tabGraphe7.map(e => e.join(",")).join("\n");
 
-            //console.log(csvContent)
-
-            stacked_barplot_7(1, "stacked_barplot_" + id, id)
+            console.log(csvContent)
         }
 
 
@@ -539,7 +564,7 @@
 
             // set the dimensions and margins of the graph
             const margin = { top: 10, right: 30, bottom: 20, left: 50 },
-                width = 460 - margin.left - margin.right,
+                width = 1800 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
@@ -557,7 +582,7 @@
                 const subgroups = data.columns.slice(1)
 
                 // List of groups = species here = value of the first column called group -> I show them on the X axis
-                const groups = data.map(d => (d.Jour))
+                const groups = data.map(d => (d.Mois))
 
                 // Add X axis
                 const x = d3.scaleBand()
