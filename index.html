@@ -9,7 +9,11 @@
 <body>
 
     <style>
-         @font-face { font-family: Gotham; src: url('./Fonts/Gotham_Medium_Regular.ttf'); } 
+        @font-face {
+            font-family: Gotham;
+            src: url('./Fonts/Gotham_Medium_Regular.ttf');
+        }
+
         .page-header {
             text-align: center;
             background-color: #191414;
@@ -31,16 +35,17 @@
             font-weight: normal;
             opacity: 0.7;
             font-size: 1.50rem;
-        }   
+        }
 
         body {
-            background-color: #1DB954;
+            background-color: #ffffff;
             font-family: Gotham;
             padding: 0;
             margin: 0;
             font-size: 16px;
             line-height: 1.5;
-            color: #606c71;
+            /* color: #606c71; */
+            color: #1DB954;
             text-align: center;
         }
 
@@ -50,71 +55,114 @@
             gap: 10px 2em;
             text-align: center;
         }
-
     </style>
 
-	<section class="page-header">
-		<h1 class="project-name">Spotify Data Visualisation</h1>
-		<h3 class="project-tagline">Bachourian Rafael & Baulard Guillaume & Perreaut Florian</h2>
-	</section>
+    <section class="page-header">
+        <h1 class="project-name">Spotify Data Visualisation</h1>
+        <h3 class="project-tagline">Bachourian Rafael & Baulard Guillaume & Perreaut Florian</h2>
+    </section>
 
     <section class="Question_1">
-        <div class ="box">
-            <div>AAAAAAAAAAA</div>
-            <div id="histo_1"></div>
+        <div>Exploration vs. Chauvinisme (artistes)</div>
+        <div class="topo">
+            Ici on cherche à faire apparaître un envie constante de nouveau dans les habitudes d'écoute ou à l'inverse
+            le fait de revenir toujours vers les mêmes "valeurs sûres".
+            A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
+        </div>
+        <div class="box">
+            <div>Statistiques générales</div>
+            <div id="histo_1">Moyenne du nombre de chansons écoutées par artiste</div>
         </div>
     </section>
 
     <section class="Question_2">
-
-        <div class ="box">
-            <div id="pie_chart_1" ></div>
-            <div id="pie_chart_2"></div>
+        <div>Eclectisme vs. Chauvinisme (generes musicaux)</div>
+        <div class="topo">
+            On s'attaque à la présence des genres dans tous les artistes écoutés.
+            A-t-on beaucoup de genres qui s'étendent sur tout le spectre musical ou une rotation de seulement quelques
+            genres qui monopolisent tous les artistes ?
+        </div>
+        <div class="box">
+            <div id="pie_chart_1">Guillaume</div>
+            <div id="pie_chart_2">Rafael</div>
         </div>
 
     </section>
 
     <section class="Question_3">
-        <div class ="box">
-            <div id="curve_1" ></div>
-            <div id="curve_2"></div>
+        <div>Taux de chansons populaires par artiste</div>
+        <div class="topo">
+            Il s'agit de faire apparaitre la tendance, soit à n'écouter que les titres les plus populaires d'un artiste,
+            soit à explorer tout son catalogue.
+            Se fie-t-on à l'avis du plus grand nombre ou cherche-t-on à creuser le plus possible par nous-mêmes ?
+        </div>
+        <div class="topo">
+            Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
+            l'artiste en nombre d'écoutes.
+        </div>
+        <div class="box">
+            <div id="curve_1">Guillaume</div>
+            <div id="curve_2">Rafael</div>
         </div>
 
     </section>
 
     <section class="Graphe_4">
-        <div class ="box">
-            <div id="bar4_chart_1" ></div>
-            <div id="bar4_chart_2"></div>
+        <div>Popularité des artistes</div>
+        <div class="topo">
+            Spotify forme un classement global des artistes en leur affectant un indice de popularité entre 0 et 100.
+            C'est une combinaisons du nombre de personnes ayant lancé une écoute de l'artiste, du nombre total d'écoutes
+            global et de la récence de ces écoutes.
+            Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
+            locaux ?
+        </div>
+        <div class="box">
+            <div id="bar4_chart_1">Guillaume</div>
+            <div id="bar4_chart_2">Rafael</div>
         </div>
     </section>
 
+    <div>Différences liées au temps d'écoute</div>
     <section class="Graphe_5">
-        <div class ="box">
-            <div id="circular_plot_1" ></div>
-            <div id="circular_plot_2"></div>
+        <div>Taux d'écoute moyen par heure, détaillé</div>
+        <div class="topo">
+            Il s'agit des variations de temps d'écoute dans la journée.
+        </div>
+        <div class="box">
+            <div id="circular_plot_1">Guillaume</div>
+            <div id="circular_plot_2">Rafael</div>
         </div>
     </section>
 
     <section class="Graphe_6">
-        <div class ="box">
-            <div id="arc_diagram_1" ></div>
-            <div id="arc_diagram_2"></div>
+        <div>Répartition des sessions dans le temps, en intervalles</div>
+        <div class="topo">
+            Une session est définir par la présence d'écoutes dans des heures consécutives. On montre ici comment les
+            sessions se sont étendues dans la journée.
+        </div>
+        <div class="box">
+            <div id="arc_diagram_1">Guillaume</div>
+            <div id="arc_diagram_2">Rafael</div>
         </div>
     </section>
 
     <section class="Graphe_7">
-        <div class ="box">
-            <div id="stacked_barplot_1" ></div>
-            <div id="stacked_barplot_2"></div>
+        <div>Etude de la présence des artistes dans la chronologie</div>
+        <div class="topo">
+            On affiche la chronologie totale, en différenciant les artistes, pour faire apparaitre les découvertes
+            d'artistes, les vagues d'écoutes, si certains sont tombés dans l'oubli, etc.
+        </div>
+        <div class="box">
+            <div id="stacked_barplot_1">Guillaume</div>
+            <div id="stacked_barplot_2">Rafael</div>
         </div>
     </section>
 
     <script>
 
         //lignes Artiste, album, chansons 
-        data_graph_1 = [["Artiste","Album","Chanson"]]
-        bar_plot_1 = [["Prenom","Valeur"]]
+        data_graph_1 = [["Artiste", "Album", "Chanson"]]
+        bar_plot_1 = [["Prenom", "Valeur"]]
 
         pie_chart_2 = []
 
@@ -153,7 +201,8 @@
                 return pad(s / 3.6e6 | 0) + ':' + pad((s % 3.6e6) / 6e4 | 0) + ':' + pad((s % 6e4) / 1000 | 0) + '.' + pad(s % 1000, 3);
             }
             // convert ms to dd:hh:mm
-            function dhm(t) {Promise
+            function dhm(t) {
+                Promise
                 var cd = 24 * 60 * 60 * 1000,
                     ch = 60 * 60 * 1000,
                     d = Math.floor(t / cd),
@@ -202,7 +251,7 @@
                 var total_sessions = total_sessions.sort(function (a, b) {
                     if (a[0] == b[0]) return a[1] - b[1];
                     return a[0] - b[0];
-                });pie_chart_1
+                }); pie_chart_1
                 var sessions_detailed = {};
                 total_sessions.forEach(([start, end]) => {
                     if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
@@ -240,35 +289,35 @@
                 console.log("total listen time");
                 console.log(dhm(total_listen_time) + " (dd:hh:mm)");
 
-                csv_listen_time_per_hour_detailed = [["Heures","Temps"]]
+                csv_listen_time_per_hour_detailed = [["Heures", "Temps"]]
 
-                for(i in listen_time_per_hour_detailed){
-                    csv_listen_time_per_hour_detailed.push([i,listen_time_per_hour_detailed[i]])
+                for (i in listen_time_per_hour_detailed) {
+                    csv_listen_time_per_hour_detailed.push([i, listen_time_per_hour_detailed[i]])
                 }
                 console.log(csv_listen_time_per_hour_detailed)
 
-                circular_plot_5(csv_listen_time_per_hour_detailed,"circular_plot_"+id,id)
+                circular_plot_5(csv_listen_time_per_hour_detailed, "circular_plot_" + id, id)
 
-                json_sessions_detailed = {"nodes": [],"links": []}
+                json_sessions_detailed = { "nodes": [], "links": [] }
                 console.log("CSV_JSON")
 
                 time = 24
                 idf = 0
-                while(idf<24){
-                    json_sessions_detailed["nodes"].push({"id":idf,"name":idf})
-                    idf+=1
+                while (idf < 24) {
+                    json_sessions_detailed["nodes"].push({ "id": idf, "name": idf })
+                    idf += 1
                 }
-                
 
-                for(i in sessions_detailed){
-                    spl = (i+"").split(",")
+
+                for (i in sessions_detailed) {
+                    spl = (i + "").split(",")
                     //console.log(spl)
-                    json_sessions_detailed["links"].push({"source":spl[0],"target":spl[1],"value":sessions_detailed[i]})
+                    json_sessions_detailed["links"].push({ "source": spl[0], "target": spl[1], "value": sessions_detailed[i] })
                 }
                 //console.log(json_sessions_detailed)
                 //console.log(JSON.stringify(json_sessions_detailed))
 
-                arc_diagram_6(1,"arc_diagram_"+id,id)
+                arc_diagram_6(1, "arc_diagram_" + id, id)
 
             }
 
@@ -295,9 +344,9 @@
                 console.log("average number of albums listened to per artist: " + average_albums_per_artist);
                 console.log("average number of songs listened to per artist: " + average_songs_per_artist);
                 console.log("average number of songs listened to per album: " + average_songs_per_album);
-                
-                data_graph_1[id] = [total_artists,total_albums,total_songs]
-                bar_plot_1[id] = [Prenom,average_songs_per_artist]
+
+                data_graph_1[id] = [total_artists, total_albums, total_songs]
+                bar_plot_1[id] = [Prenom, average_songs_per_artist]
 
                 genres(listing)
                 artisteTop(listing)
@@ -315,7 +364,7 @@
             console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            csvGraphe7(listing_G,chronology_G)
+            csvGraphe7(listing_G, chronology_G);
             since_start_date_R = {};
             since_start_date_R['hours_since_start_date'] = 55943;
             since_start_date_R['days_since_start_date'] = 2330;
@@ -323,88 +372,88 @@
             since_start_date_R['months_since_start_date'] = 76;
             since_start_date_R['years_since_start_date'] = 6.38;
             Prenom = "Rafael"
-            id +=1
+            id += 1
             console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
-            csvGraphe7(listing_R,chronology_R)
+            // csvGraphe7(listing_R, chronology_R);
 
             //Draw graph
             histogram_1(bar_plot_1)
             //drawPieChart(1,"pie_chart_0")
             //drawPieChart(1,"pie_chart_1")
-            
-            
+
+
             //courbe_3(1,"curve_2")
 
         });
 
-        function artistePop(listing){
+        function artistePop(listing) {
 
             //console.log("Artiste Pop")
 
-            tabArtistePop = [["artist","pop"]]
+            tabArtistePop = [["artist", "pop"]]
             //Proportion = nb total d'un genre / total des genres par artiste
 
             Object.keys(listing).forEach(function (artist) {
-                    //tabArtisteTop[artist] = listing[artist].taux_top_track
-                    tabArtistePop.push([artist,listing[artist].popularity])
-                });
+                //tabArtisteTop[artist] = listing[artist].taux_top_track
+                tabArtistePop.push([artist, listing[artist].popularity])
+            });
 
             //console.log(tabArtistePop)
 
-            barchart4(tabArtistePop,"bar4_chart_"+id,id)
+            barchart4(tabArtistePop, "bar4_chart_" + id, id)
 
 
         }
 
 
-        function artisteTop(listing){
+        function artisteTop(listing) {
 
             console.log("Artiste Top")
 
-            tabArtisteTop = [["artist","top"]]
+            tabArtisteTop = [["artist", "top"]]
             //Proportion = nb total d'un genre / total des genres par artiste
 
             Object.keys(listing).forEach(function (artist) {
-                    //tabArtisteTop[artist] = listing[artist].taux_top_track
-                    tabArtisteTop.push([artist,listing[artist].taux_top_track])
-                });
-            
+                //tabArtisteTop[artist] = listing[artist].taux_top_track
+                tabArtisteTop.push([artist, listing[artist].taux_top_track])
+            });
+
             console.log(tabArtisteTop)
 
-            courbe_3(tabArtisteTop,"curve_"+id,id)
+            courbe_3(tabArtisteTop, "curve_" + id, id)
 
         }
 
 
-        function genres(listing){
+        function genres(listing) {
             console.log("Genres")
 
             tabGenres = {}
             //Proportion = nb total d'un genre / total des genres par artiste
             total_genres = 0
             Object.keys(listing).forEach(function (artist) {
-                    total_genres += listing[artist].genres.length
-                    //console.log(listing[artist].genres)
-                    for(genre in listing[artist].genres){
-                        if(tabGenres[listing[artist].genres[0]] === undefined){
-                            tabGenres[listing[artist].genres[0]]=1
-                        }else{
-                            tabGenres[listing[artist].genres[0]]+=1
-                        }
+                total_genres += listing[artist].genres.length
+                //console.log(listing[artist].genres)
+                for (genre in listing[artist].genres) {
+                    if (tabGenres[listing[artist].genres[0]] === undefined) {
+                        tabGenres[listing[artist].genres[0]] = 1
+                    } else {
+                        tabGenres[listing[artist].genres[0]] += 1
                     }
-                });
-            
-            console.log("total genders "+total_genres)
+                }
+            });
+
+            console.log("total genders " + total_genres)
             console.log(tabGenres)
-            
-            drawPieChart(tabGenres,"pie_chart_"+id)
+
+            drawPieChart(tabGenres, "pie_chart_" + id)
 
         }
 
 
-        function csvGraphe7(listing,chronology){
+        function csvGraphe7(listing, chronology) {
 
             console.log("Graphe 7")
 
@@ -412,9 +461,9 @@
             //Proportion = nb total d'un genre / total des genres par artiste
 
             Object.keys(listing).forEach(function (artist) {
-                    //tabArtisteTop[artist] = listing[artist].taux_top_track
-                    nomArtistes.push(artist)
-                });
+                //tabArtisteTop[artist] = listing[artist].taux_top_track
+                nomArtistes.push(artist)
+            });
 
             nomArtistes.unshift("Jour")
 
@@ -422,18 +471,18 @@
 
             zero = new Array(nomArtistes.length).fill(0);
 
-            for(jour in chronology){
+            for (jour in chronology) {
                 tabGraphe7.push([jour].concat(zero))
             }
 
             j = 1
-            for(jour in chronology){
-                for(heure in chronology[jour]){
+            for (jour in chronology) {
+                for (heure in chronology[jour]) {
                     //console.log(chronology[jour][heure].artist)
 
-                    for(val in tabGraphe7[0]){
+                    for (val in tabGraphe7[0]) {
                         //console.log(chronology[jour].artist)
-                        if(tabGraphe7[0][val] == chronology[jour][heure].artist){
+                        if (tabGraphe7[0][val] == chronology[jour][heure].artist) {
                             //console.log("Test")
                             tabGraphe7[j][val] += 1
                         }
@@ -441,173 +490,173 @@
 
                 }
 
-                j+=1
+                j += 1
             }
 
             console.log(tabGraphe7)
 
             let csvContent = "" +
-            tabGraphe7.map(e => e.join(",")).join("\n");
+                tabGraphe7.map(e => e.join(",")).join("\n");
 
             //console.log(csvContent)
 
-             stacked_barplot_7(1,"stacked_barplot_"+id,id)
+            stacked_barplot_7(1, "stacked_barplot_" + id, id)
         }
 
 
-        function stacked_barplot_7(data,divname,owner){
+        function stacked_barplot_7(data, divname, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = {top: 10, right: 30, bottom: 20, left: 50},
+            const margin = { top: 10, right: 30, bottom: 20, left: 50 },
                 width = 460 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            const svg = d3.select("#"+divname)
-            .append("svg")
+            const svg = d3.select("#" + divname)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
 
             // Parse the Data
-            d3.csv("./graph_data/data_7_"+owner+".csv").then( function(data) {
+            d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
-            // List of subgroups = header of the csv files = soil condition here
-            const subgroups = data.columns.slice(1)
+                // List of subgroups = header of the csv files = soil condition here
+                const subgroups = data.columns.slice(1)
 
-            // List of groups = species here = value of the first column called group -> I show them on the X axis
-            const groups = data.map(d => (d.Jour))
+                // List of groups = species here = value of the first column called group -> I show them on the X axis
+                const groups = data.map(d => (d.Jour))
 
-            // Add X axis
-            const x = d3.scaleBand()
-                .domain(groups)
-                .range([0, width])
-                .padding([0.2])
-            svg.append("g")
-                .attr("transform", `translate(0, ${height})`)
-                .call(d3.axisBottom(x).tickSizeOuter(0));
+                // Add X axis
+                const x = d3.scaleBand()
+                    .domain(groups)
+                    .range([0, width])
+                    .padding([0.2])
+                svg.append("g")
+                    .attr("transform", `translate(0, ${height})`)
+                    .call(d3.axisBottom(x).tickSizeOuter(0));
 
-            // Add Y axis
-            const y = d3.scaleLinear()
-                .domain([0, 60])
-                .range([ height, 0 ]);
-            svg.append("g")
-                .call(d3.axisLeft(y));
+                // Add Y axis
+                const y = d3.scaleLinear()
+                    .domain([0, 60])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
 
-            // color palette = one color per subgroup
-            const color = d3.scaleOrdinal()
-                .domain(subgroups)
-                .range(['#e41a1c','#377eb8','#4daf4a'])
+                // color palette = one color per subgroup
+                const color = d3.scaleOrdinal()
+                    .domain(subgroups)
+                    .range(['#e41a1c', '#377eb8', '#4daf4a'])
 
-            //stack the data? --> stack per subgroup
-            const stackedData = d3.stack()
-                .keys(subgroups)
-                (data)
+                //stack the data? --> stack per subgroup
+                const stackedData = d3.stack()
+                    .keys(subgroups)
+                    (data)
 
-            // Show the bars
-            svg.append("g")
-                .selectAll("g")
-                // Enter in the stack data = loop key per key = group per group
-                .data(stackedData)
-                .join("g")
-                .attr("fill", d => color(d.key))
-                .selectAll("rect")
-                // enter a second time = loop subgroup per subgroup to add all rectangles
-                .data(d => d)
-                .join("rect")
+                // Show the bars
+                svg.append("g")
+                    .selectAll("g")
+                    // Enter in the stack data = loop key per key = group per group
+                    .data(stackedData)
+                    .join("g")
+                    .attr("fill", d => color(d.key))
+                    .selectAll("rect")
+                    // enter a second time = loop subgroup per subgroup to add all rectangles
+                    .data(d => d)
+                    .join("rect")
                     .attr("x", d => x(d.data.Jour))
                     .attr("y", d => y(d[1]))
                     .attr("height", d => y(d[0]) - y(d[1]))
-                    .attr("width",x.bandwidth())
+                    .attr("width", x.bandwidth())
             })
 
 
         }
 
 
-        function arc_diagram_6(data,divName,owner){
+        function arc_diagram_6(data, divName, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = {top: 20, right: 30, bottom: 20, left: 30},
-            width = 450 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
+            const margin = { top: 20, right: 30, bottom: 20, left: 30 },
+                width = 450 - margin.left - margin.right,
+                height = 300 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            const svg = d3.select("#"+divName)
-            .append("svg")
+            const svg = d3.select("#" + divName)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
             // Read dummy data
 
-            d3.json("./graph_data/data_6_"+owner+".json").then(function(data) {
+            d3.json("./graph_data/data_6_" + owner + ".json").then(function (data) {
 
-            // List of node names
-            var allNodes = data.nodes.map(d => d.name)
+                // List of node names
+                var allNodes = data.nodes.map(d => d.name)
 
-            // A linear scale to position the nodes on the X axis
-            var x = d3.scalePoint()
-                .range([0, width])
-                .domain(allNodes)
+                // A linear scale to position the nodes on the X axis
+                var x = d3.scalePoint()
+                    .range([0, width])
+                    .domain(allNodes)
 
-            // Add the circle for the nodes
-            svg
-                .selectAll("mynodes")
-                .data(data.nodes)
-                .enter()
-                .append("circle")
-                .attr("cx", d => x(d.name))
-                .attr("cy", height-30)
-                .attr("r", 8)
-                .style("fill", "#69b3a2")
+                // Add the circle for the nodes
+                svg
+                    .selectAll("mynodes")
+                    .data(data.nodes)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", d => x(d.name))
+                    .attr("cy", height - 30)
+                    .attr("r", 8)
+                    .style("fill", "#69b3a2")
 
-            // And give them a label
-            svg
-                .selectAll("mylabels")
-                .data(data.nodes)
-                .enter()
-                .append("text")
-                .attr("x", d => x(d.name))
-                .attr("y", height-10)
-                .text(d => d.name)
-                .style("text-anchor", "middle")
+                // And give them a label
+                svg
+                    .selectAll("mylabels")
+                    .data(data.nodes)
+                    .enter()
+                    .append("text")
+                    .attr("x", d => x(d.name))
+                    .attr("y", height - 10)
+                    .text(d => d.name)
+                    .style("text-anchor", "middle")
 
-            // Add links between nodes. Here is the tricky part.
-            // In my input data, links are provided between nodes -id-, NOT between node names.
-            // So I have to do a link between this id and the name
-            var idToNode = {};
-            data.nodes.forEach(node =>
-                idToNode[node.id] = node
-            );
-            // Cool, now if I do idToNode["2"].name I've got the name of the node with id 2
+                // Add links between nodes. Here is the tricky part.
+                // In my input data, links are provided between nodes -id-, NOT between node names.
+                // So I have to do a link between this id and the name
+                var idToNode = {};
+                data.nodes.forEach(node =>
+                    idToNode[node.id] = node
+                );
+                // Cool, now if I do idToNode["2"].name I've got the name of the node with id 2
 
-            // Add the links
-            svg
-                .selectAll('mylinks')
-                .data(data.links)
-                .enter()
-                .append('path')
-                .attr('d', function (d) {
-                start = x(idToNode[d.source].name)    // X position of start node on the X axis
-                end = x(idToNode[d.target].name)      // X position of end node
-                return ['M', start, height-30,    // the arc starts at the coordinate x=start, y=height-30 (where the starting node is)
-                    'A',                            // This means we're gonna build an elliptical arc
-                    (start - end)/2, ',',    // Next 2 lines are the coordinates of the inflexion point. Height of this point is proportional with start - end distance
-                    (start - end)/2, 0, 0, ',',
-                    start < end ? 1 : 0, end, ',', height-30] // We always want the arc on top. So if end is before start, putting 0 here turn the arc upside down.
-                    .join(' ');
-                })
-                .style("fill", "none")
-                .attr("stroke", "black")
+                // Add the links
+                svg
+                    .selectAll('mylinks')
+                    .data(data.links)
+                    .enter()
+                    .append('path')
+                    .attr('d', function (d) {
+                        start = x(idToNode[d.source].name)    // X position of start node on the X axis
+                        end = x(idToNode[d.target].name)      // X position of end node
+                        return ['M', start, height - 30,    // the arc starts at the coordinate x=start, y=height-30 (where the starting node is)
+                            'A',                            // This means we're gonna build an elliptical arc
+                            (start - end) / 2, ',',    // Next 2 lines are the coordinates of the inflexion point. Height of this point is proportional with start - end distance
+                            (start - end) / 2, 0, 0, ',',
+                            start < end ? 1 : 0, end, ',', height - 30] // We always want the arc on top. So if end is before start, putting 0 here turn the arc upside down.
+                            .join(' ');
+                    })
+                    .style("fill", "none")
+                    .attr("stroke", "black")
             })
         }
 
 
-        function histogram_1(data){
+        function histogram_1(data) {
             //Bar plot
 
             let csvContent = "data:text/csv;charset=utf-8," +
@@ -616,120 +665,120 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
                 width = 460 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#histo_1")
-            .append("svg")
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");   
-                    
+                    "translate(" + margin.left + "," + margin.top + ")");
+
             // Parse the Data
-            var dataCsv = d3.csv("./graph_data/data_1.csv"); 
+            var dataCsv = d3.csv("./graph_data/data_1.csv");
 
-            dataCsv.then(function(data)
-            {
-            
-            // X axis
-            var x = d3.scaleBand()
-            .range([ 0, width ])
-            .domain(data.map(d => d.Prenom))
-            .padding(0.2);
-            svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
+            dataCsv.then(function (data) {
 
-            // Add Y axis
-            var y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.Valeur)])
-            .range([ height, 0]);
-            svg.append("g")
-            .call(d3.axisLeft(y));
+                // X axis
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(data.map(d => d.Prenom))
+                    .padding(0.2);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(-10,0)rotate(-45)")
+                    .style("text-anchor", "end");
 
-            // Bars
-            svg.selectAll("mybar")
-            .data(data)
-            .enter()
-            .append("rect")
-                .attr("x", function(d) { return x(d.Prenom); })
-                .attr("y", function(d) { return y(d.Valeur); })
-                .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.Valeur); })
-                .attr("fill", "#69b3a2")
+                // Add Y axis
+                var y = d3.scaleLinear()
+                    .domain([0, d3.max(data, d => d.Valeur)])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
+
+                // Bars
+                svg.selectAll("mybar")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) { return x(d.Prenom); })
+                    .attr("y", function (d) { return y(d.Valeur); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.Valeur); })
+                    .attr("fill", "#69b3a2")
             })
 
         }
 
-        function circular_plot_5(data,divName,id){
+        function circular_plot_5(data, divName, id) {
 
             let csvContent = "" +
                 data.map(e => e.join(",")).join("\n");
-            
+
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = {top: 100, right: 0, bottom: 0, left: 0},
+            var margin = { top: 100, right: 0, bottom: 0, left: 0 },
                 width = 460 - margin.left - margin.right,
                 height = 460 - margin.top - margin.bottom,
                 innerRadius = 90,
                 outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
 
             // append the svg object
-            var svg = d3.select("#"+divName)
-            .append("svg")
+            var svg = d3.select("#" + divName)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
 
-            datacsv = d3.csv("./graph_data/data_5_"+id+".csv");
-            
-            datacsv.then(function(data) {
+            datacsv = d3.csv("./graph_data/data_5_" + id + ".csv");
 
-            // Scales
-            var x = d3.scaleBand()
-                .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
-                .align(0)                  // This does nothing
-                .domain(data.map(function(d) { return d.Heures; })); // The domain of the X axis is the list of states.
-            var y = d3.scaleRadial()
-                .range([innerRadius, outerRadius])   // Domain will be define later.
-                .domain([0, d3.max(data.map(function(d) { return d.Temps; }))]); // Domain of Y is from 0 to the max seen in the data
+            datacsv.then(function (data) {
 
-            // Add the bars
-            svg.append("g")
-                .selectAll("path")
-                .data(data)
-                .enter()
-                .append("path")
-                .attr("fill", "#69b3a2")
-                .attr("d", d3.arc()     // imagine your doing a part of a donut plot
-                    .innerRadius(innerRadius)
-                    .outerRadius(function(d) { 
-                        return y(d['Temps']); })
-                    .startAngle(function(d) { return x(d.Heures); })
-                    .endAngle(function(d) { return x(d.Heures) + x.bandwidth(); })
-                    .padAngle(0.01)
-                    .padRadius(innerRadius))
+                // Scales
+                var x = d3.scaleBand()
+                    .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
+                    .align(0)                  // This does nothing
+                    .domain(data.map(function (d) { return d.Heures; })); // The domain of the X axis is the list of states.
+                var y = d3.scaleRadial()
+                    .range([innerRadius, outerRadius])   // Domain will be define later.
+                    .domain([0, d3.max(data.map(function (d) { return d.Temps; }))]); // Domain of Y is from 0 to the max seen in the data
 
-            // Add the labels
-            svg.append("g")
-                .selectAll("g")
-                .data(data)
-                .enter()
-                .append("g")
-                    .attr("text-anchor", function(d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
-                    .attr("transform", function(d) { return "rotate(" + ((x(d.Heures) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(d['Temps'])+10) + ",0)"; })
-                .append("text")
-                    .text(function(d){return(d.Heures)})
-                    .attr("transform", function(d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+                // Add the bars
+                svg.append("g")
+                    .selectAll("path")
+                    .data(data)
+                    .enter()
+                    .append("path")
+                    .attr("fill", "#69b3a2")
+                    .attr("d", d3.arc()     // imagine your doing a part of a donut plot
+                        .innerRadius(innerRadius)
+                        .outerRadius(function (d) {
+                            return y(d['Temps']);
+                        })
+                        .startAngle(function (d) { return x(d.Heures); })
+                        .endAngle(function (d) { return x(d.Heures) + x.bandwidth(); })
+                        .padAngle(0.01)
+                        .padRadius(innerRadius))
+
+                // Add the labels
+                svg.append("g")
+                    .selectAll("g")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("text-anchor", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+                    .attr("transform", function (d) { return "rotate(" + ((x(d.Heures) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")" + "translate(" + (y(d['Temps']) + 10) + ",0)"; })
+                    .append("text")
+                    .text(function (d) { return (d.Heures) })
+                    .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
 
@@ -737,138 +786,136 @@
 
         }
 
-        function barchart4(data,divName,owner){
+        function barchart4(data, divName, owner) {
 
             let csvContent = "" +
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
                 width = 460 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            var svg = d3.select("#"+divName)
-            .append("svg")
+            var svg = d3.select("#" + divName)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");   
-                    
+                    "translate(" + margin.left + "," + margin.top + ")");
+
             // Parse the Data
-            var dataCsv = d3.csv("./graph_data/data_4_"+owner+".csv"); 
+            var dataCsv = d3.csv("./graph_data/data_4_" + owner + ".csv");
 
-            dataCsv.then(function(data)
-            {
+            dataCsv.then(function (data) {
 
-            // X axis
-            var x = d3.scaleBand()
-            .range([ 0, width ])
-            .domain(data.map(d => d.artist))
-            .padding(0.2);
-            svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
+                // X axis
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(data.map(d => d.artist))
+                    .padding(0.2);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(-10,0)rotate(-45)")
+                    .style("text-anchor", "end");
 
-            // Add Y axis
-            var y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.pop)])
-            .range([ height, 0]);
-            svg.append("g")
-            .call(d3.axisLeft(y));
+                // Add Y axis
+                var y = d3.scaleLinear()
+                    .domain([0, d3.max(data, d => d.pop)])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
 
-            // Bars
-            svg.selectAll("mybar")
-            .data(data)
-            .enter()
-            .append("rect")
-                .attr("x", function(d) { return x(d.artist); })
-                .attr("y", function(d) { return y(d.pop); })
-                .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.pop); })
-                .attr("fill", "#69b3a2")
+                // Bars
+                svg.selectAll("mybar")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) { return x(d.artist); })
+                    .attr("y", function (d) { return y(d.pop); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.pop); })
+                    .attr("fill", "#69b3a2")
             })
 
 
         }
 
 
-        function courbe_3(data,divName,owner){
+        function courbe_3(data, divName, owner) {
 
             let csvContent = "" +
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
                 width = 460 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            var svg = d3.select("#"+divName)
-            .append("svg")
+            var svg = d3.select("#" + divName)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+                .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");   
-                    
+                    "translate(" + margin.left + "," + margin.top + ")");
+
             // Parse the Data
-            var dataCsv = d3.csv("./graph_data/data_3_"+owner+".csv"); 
+            var dataCsv = d3.csv("./graph_data/data_3_" + owner + ".csv");
 
-            dataCsv.then(function(data)
-            {
+            dataCsv.then(function (data) {
 
-            // X axis
-            var x = d3.scaleBand()
-            .range([ 0, width ])
-            .domain(data.map(d => d.artist))
-            .padding(0.2);
-            svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
+                // X axis
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(data.map(d => d.artist))
+                    .padding(0.2);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(-10,0)rotate(-45)")
+                    .style("text-anchor", "end");
 
-            // Add Y axis
-            var y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.top)])
-            .range([ height, 0]);
-            svg.append("g")
-            .call(d3.axisLeft(y));
+                // Add Y axis
+                var y = d3.scaleLinear()
+                    .domain([0, d3.max(data, d => d.top)])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
 
-            // Bars
-            svg.selectAll("mybar")
-            .data(data)
-            .enter()
-            .append("rect")
-                .attr("x", function(d) { return x(d.artist); })
-                .attr("y", function(d) { return y(d.top); })
-                .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.top); })
-                .attr("fill", "#69b3a2")
+                // Bars
+                svg.selectAll("mybar")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) { return x(d.artist); })
+                    .attr("y", function (d) { return y(d.top); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.top); })
+                    .attr("fill", "#69b3a2")
             })
 
         }
 
 
-        function drawPieChart(data,divName){
+        function drawPieChart(data, divName) {
 
             var genres = Object.keys(data);
-                
-            var data=Object.values(data)
 
-            var margin = {top: 30, right: 30, bottom: 70, left: 60},
+            var data = Object.values(data)
+
+            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
                 width = 460 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            var svg = d3.select("#"+divName)
-            .append("svg")
+            var svg = d3.select("#" + divName)
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
 
@@ -878,36 +925,36 @@
 
             // Creating arc
             var arc = d3.arc()
-                        .innerRadius(0)
-                        .outerRadius(100);
+                .innerRadius(0)
+                .outerRadius(100);
 
             let g = svg.append("g")
-                        .attr("transform", "translate(150,120)");
+                .attr("transform", "translate(150,120)");
 
             // Grouping different arcs
             var arcs = g.selectAll("arc")
-                        .data(pie(data))
-                        .enter()
-                        .append("g");
+                .data(pie(data))
+                .enter()
+                .append("g");
 
             // Appending path 
             arcs.append("path")
-                .attr("fill", (data, i)=>{
-                    let value=data.data;
-                    return d3.schemeSet3[i+1];
+                .attr("fill", (data, i) => {
+                    let value = data.data;
+                    return d3.schemeSet3[i + 1];
                 })
                 .attr("d", arc);
-                
+
             // Adding data to each arc
             arcs.append("text")
-                .attr("transform",(d)=>{ 
-                        return "translate("+ 
-                        arc.centroid(d) + ")"; 
+                .attr("transform", (d) => {
+                    return "translate(" +
+                        arc.centroid(d) + ")";
                 })
                 //.data(pie(genres)) //ajout nom genre
-                .text(function(d){
-                    return d.data; 
-                    });
+                .text(function (d) {
+                    return d.data;
+                });
         }
 
 
