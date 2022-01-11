@@ -39,6 +39,7 @@
 
         body {
             background-color: #ffffff;
+            /* background-color: #191414; */
             font-family: Gotham;
             padding: 0;
             margin: 0;
@@ -49,9 +50,24 @@
             text-align: center;
         }
 
+        .topo {
+            color: #606c71;
+        }
+
         .box {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 10px 2em;
+            text-align: center;
+        }
+
+        /* div.box2>div {
+            text-align: center;
+        } */
+
+        .box2 {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
             gap: 10px 2em;
             text-align: center;
         }
@@ -76,15 +92,15 @@
     </section>
 
     <section class="Question_2">
-        <div>Eclectisme vs. Chauvinisme (generes musicaux)</div>
+        <div>Eclectisme vs. Chauvinisme (genres musicaux)</div>
         <div class="topo">
             On s'attaque à la présence des genres dans tous les artistes écoutés.
             A-t-on beaucoup de genres qui s'étendent sur tout le spectre musical ou une rotation de seulement quelques
             genres qui monopolisent tous les artistes ?
         </div>
         <div class="box">
-            <div id="pie_chart_1">Guillaume</div>
-            <div id="pie_chart_2">Rafael</div>
+            <div id="pie_chart_1"></div>
+            <div id="pie_chart_2"></div>
         </div>
 
     </section>
@@ -100,7 +116,7 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="box">
+        <div class="box2">
             <div id="curve_1">Guillaume</div>
             <div id="curve_2">Rafael</div>
         </div>
@@ -116,9 +132,9 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-        <div class="box">
-            <div id="bar4_chart_1">Guillaume</div>
-            <div id="bar4_chart_2">Rafael</div>
+        <div class="box2">
+            <div id="bar4_chart_1"></div>
+            <div id="bar4_chart_2"></div>
         </div>
     </section>
 
@@ -129,8 +145,8 @@
             Il s'agit des variations de temps d'écoute dans la journée.
         </div>
         <div class="box">
-            <div id="circular_plot_1">Guillaume</div>
-            <div id="circular_plot_2">Rafael</div>
+            <div id="circular_plot_1"></div>
+            <div id="circular_plot_2"></div>
         </div>
     </section>
 
@@ -141,8 +157,8 @@
             sessions se sont étendues dans la journée.
         </div>
         <div class="box">
-            <div id="arc_diagram_1">Guillaume</div>
-            <div id="arc_diagram_2">Rafael</div>
+            <div id="arc_diagram_1"></div>
+            <div id="arc_diagram_2"></div>
         </div>
     </section>
 
@@ -153,8 +169,10 @@
             d'artistes, les vagues d'écoutes, si certains sont tombés dans l'oubli, etc.
         </div>
         <div class="box">
-            <div id="stacked_barplot_1">Guillaume</div>
-            <div id="stacked_barplot_2">Rafael</div>
+            <div id="stacked_barplot_1"></div>
+        </div>
+        <div class="box">
+            <div id="stacked_barplot_2"></div>
         </div>
     </section>
 
@@ -185,10 +203,10 @@
 
             delete chronology_R['2014-12-25'];
 
-            console.log("Listing_G")
-            console.log(listing_G);
-            console.log("chronology_G")
-            console.log(chronology_G);
+            // console.log("Listing_G")
+            // console.log(listing_G);
+            // console.log("chronology_G")
+            // console.log(chronology_G);
 
             // console.log(listing_R);
             // console.log(chronology_G);
@@ -263,43 +281,43 @@
                 var average_listen_time_per_month = total_listen_time / since_start_date['months_since_start_date'];
                 var average_listen_time_per_year = total_listen_time / since_start_date['years_since_start_date'];
 
-                // average listening time per hour in the day, in minutes. array of 24 values where the index is the hour in the day
-                console.log("listen time per hour detailed");
-                console.log(listen_time_per_hour_detailed);
-                // average listening time per hour since the beginning in ms
-                console.log("average listen time per hour: " + msToTime(average_listen_time_per_hour));
-                // average listening time per day since the beginning in ms
-                console.log("average listen time per day: " + msToTime(average_listen_time_per_day));
-                // average listening time per hour since the beginning in ms
-                console.log("average listen time per week: " + msToTime(average_listen_time_per_week));
-                // average listening time per hour since the beginning in ms
-                console.log("average listen time per month: " + msToTime(average_listen_time_per_month));
-                // average listening time per hour since the beginning in ms
-                console.log("average listen time per year: " + dhm(average_listen_time_per_year) + " (dd:hh:mm)");
-                // listing of all sessions from the beginning, represented by [start_hour, end_hour]
-                console.log("total sessions");
-                console.log(total_sessions);
-                // object with keys the specific sessions (as in instances of [start, end]) and values the number of times these sessions happened
-                console.log("sessions detailed");
-                console.log(sessions_detailed);
-                // array of values corresponding to the number of sessions of length equal to the index in the array
-                console.log("session lengths");
-                console.log(session_lengths);
-                // total listening time from the beginning
-                console.log("total listen time");
-                console.log(dhm(total_listen_time) + " (dd:hh:mm)");
+                // // average listening time per hour in the day, in minutes. array of 24 values where the index is the hour in the day
+                // console.log("listen time per hour detailed");
+                // console.log(listen_time_per_hour_detailed);
+                // // average listening time per hour since the beginning in ms
+                // console.log("average listen time per hour: " + msToTime(average_listen_time_per_hour));
+                // // average listening time per day since the beginning in ms
+                // console.log("average listen time per day: " + msToTime(average_listen_time_per_day));
+                // // average listening time per hour since the beginning in ms
+                // console.log("average listen time per week: " + msToTime(average_listen_time_per_week));
+                // // average listening time per hour since the beginning in ms
+                // console.log("average listen time per month: " + msToTime(average_listen_time_per_month));
+                // // average listening time per hour since the beginning in ms
+                // console.log("average listen time per year: " + dhm(average_listen_time_per_year) + " (dd:hh:mm)");
+                // // listing of all sessions from the beginning, represented by [start_hour, end_hour]
+                // console.log("total sessions");
+                // console.log(total_sessions);
+                // // object with keys the specific sessions (as in instances of [start, end]) and values the number of times these sessions happened
+                // console.log("sessions detailed");
+                // console.log(sessions_detailed);
+                // // array of values corresponding to the number of sessions of length equal to the index in the array
+                // console.log("session lengths");
+                // console.log(session_lengths);
+                // // total listening time from the beginning
+                // console.log("total listen time");
+                // console.log(dhm(total_listen_time) + " (dd:hh:mm)");
 
                 csv_listen_time_per_hour_detailed = [["Heures", "Temps"]]
 
                 for (i in listen_time_per_hour_detailed) {
                     csv_listen_time_per_hour_detailed.push([i, listen_time_per_hour_detailed[i]])
                 }
-                console.log(csv_listen_time_per_hour_detailed)
+                // console.log(csv_listen_time_per_hour_detailed)
 
                 circular_plot_5(csv_listen_time_per_hour_detailed, "circular_plot_" + id, id)
 
                 json_sessions_detailed = { "nodes": [], "links": [] }
-                console.log("CSV_JSON")
+                // console.log("CSV_JSON")
 
                 time = 24
                 idf = 0
@@ -338,12 +356,12 @@
                 var average_albums_per_artist = total_albums / total_artists;
                 var average_songs_per_artist = total_songs / total_artists;
                 var average_songs_per_album = total_songs / total_albums;
-                console.log("total number of artists: " + total_artists);
-                console.log("total number of albums: " + total_albums);
-                console.log("total number of songs: " + total_songs);
-                console.log("average number of albums listened to per artist: " + average_albums_per_artist);
-                console.log("average number of songs listened to per artist: " + average_songs_per_artist);
-                console.log("average number of songs listened to per album: " + average_songs_per_album);
+                // console.log("total number of artists: " + total_artists);
+                // console.log("total number of albums: " + total_albums);
+                // console.log("total number of songs: " + total_songs);
+                // console.log("average number of albums listened to per artist: " + average_albums_per_artist);
+                // console.log("average number of songs listened to per artist: " + average_songs_per_artist);
+                // console.log("average number of songs listened to per album: " + average_songs_per_album);
 
                 data_graph_1[id] = [total_artists, total_albums, total_songs]
                 bar_plot_1[id] = [Prenom, average_songs_per_artist]
@@ -361,10 +379,10 @@
             since_start_date_G['weeks_since_start_date'] = 299;
             since_start_date_G['months_since_start_date'] = 69;
             since_start_date_G['years_since_start_date'] = 5.74;
-            console.log("Guillaume");
+            // console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            //csvGraphe7(listing_G,chronology_G)
+            csvGraphe7(listing_G, chronology_G);
             since_start_date_R = {};
             since_start_date_R['hours_since_start_date'] = 55943;
             since_start_date_R['days_since_start_date'] = 2330;
@@ -373,7 +391,7 @@
             since_start_date_R['years_since_start_date'] = 6.38;
             Prenom = "Rafael"
             id += 1
-            console.log("Rafael");
+            // console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
             //csvGraphe7(listing_R,chronology_R)
@@ -578,9 +596,9 @@
         function arc_diagram_6(data, divName, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 20, right: 30, bottom: 20, left: 30 },
-                width = 450 - margin.left - margin.right,
-                height = 300 - margin.top - margin.bottom;
+            const margin = { top: 0, right: 30, bottom: 20, left: 30 },
+                width = 500 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divName)
@@ -703,7 +721,7 @@
                     .call(d3.axisLeft(y));
 
                 // Bars
-                svg.selectAll("mybar")
+                var bars = svg.selectAll("mybar")
                     .data(data)
                     .enter()
                     .append("rect")
@@ -711,7 +729,7 @@
                     .attr("y", function (d) { return y(d.Valeur); })
                     .attr("width", x.bandwidth())
                     .attr("height", function (d) { return height - y(d.Valeur); })
-                    .attr("fill", "#69b3a2")
+                    .attr("fill", "#69b3a2");
             })
 
         }
@@ -724,7 +742,7 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = { top: 100, right: 0, bottom: 0, left: 0 },
+            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
                 width = 460 - margin.left - margin.right,
                 height = 460 - margin.top - margin.bottom,
                 innerRadius = 90,
@@ -749,7 +767,7 @@
                     .domain(data.map(function (d) { return d.Heures; })); // The domain of the X axis is the list of states.
                 var y = d3.scaleRadial()
                     .range([innerRadius, outerRadius])   // Domain will be define later.
-                    .domain([0, d3.max(data.map(function (d) { return d.Temps; }))]); // Domain of Y is from 0 to the max seen in the data
+                    .domain([0, 17]); // Domain of Y is from 0 to the max seen in the data
 
                 // Add the bars
                 svg.append("g")
@@ -769,6 +787,7 @@
                         .padRadius(innerRadius))
 
                 // Add the labels
+                // outer label
                 svg.append("g")
                     .selectAll("g")
                     .data(data)
@@ -777,8 +796,22 @@
                     .attr("text-anchor", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
                     .attr("transform", function (d) { return "rotate(" + ((x(d.Heures) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")" + "translate(" + (y(d['Temps']) + 10) + ",0)"; })
                     .append("text")
-                    .text(function (d) { return (d.Heures) })
+                    .text(function (d) { return Math.round((parseInt(d['Temps']) + Number.EPSILON) * 100) / 100; })
                     .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+                    .style("font-size", "11px")
+                    .attr("alignment-baseline", "middle")
+
+                // inner labels
+                svg.append("g")
+                    .selectAll("g")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("text-anchor", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+                    .attr("transform", function (d) { return "rotate(" + ((x(d.Heures) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")" + "translate(" + (y(0) - 5) + ",0)"; })
+                    .append("text")
+                    .text(function (d) { if (parseInt(d.Heures) % 6 == 0) return (d.Heures); })
+                    .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(0)" : "rotate(180)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
 
@@ -793,7 +826,7 @@
 
             // set the dimensions and margins of the graph
             var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
+                width = 4 / Math.log(data.length / 53.0) * data.length - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
@@ -816,11 +849,11 @@
                     .domain(data.map(d => d.artist))
                     .padding(0.2);
                 svg.append("g")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(x))
-                    .selectAll("text")
-                    .attr("transform", "translate(-10,0)rotate(-45)")
-                    .style("text-anchor", "end");
+                // .attr("transform", "translate(0," + height + ")")
+                // .call(d3.axisBottom(x))
+                // .selectAll("text")
+                // .attr("transform", "translate(-10,0)rotate(-45)")
+                // .style("text-anchor", "end");
 
                 // Add Y axis
                 var y = d3.scaleLinear()
@@ -851,9 +884,10 @@
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
+            var margin = { top: 30, right: 60, bottom: 70, left: 60 },
+                width = 4 / Math.log(data.length / 53.0) * data.length - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
+
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
@@ -875,11 +909,11 @@
                     .domain(data.map(d => d.artist))
                     .padding(0.2);
                 svg.append("g")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(x))
-                    .selectAll("text")
-                    .attr("transform", "translate(-10,0)rotate(-45)")
-                    .style("text-anchor", "end");
+                // .attr("transform", "translate(0," + height + ")")
+                // .call(d3.axisBottom(x));
+                // .selectAll("text")
+                // .attr("transform", "translate(-10,0)rotate(-45)")
+                // .style("text-anchor", "end");
 
                 // Add Y axis
                 var y = d3.scaleLinear()
@@ -903,7 +937,7 @@
         }
 
 
-        function drawPieChart(data,divName){
+        function drawPieChart(data, divName) {
             tot = 0
             for (d in data) {
                 tot += data[d]
@@ -911,8 +945,8 @@
 
             ndata = {}
             ndata["other"] = 0
-            for (d in data){
-                if (data[d] < tot/25){
+            for (d in data) {
+                if (data[d] < tot / 50) {
                     ndata["other"] = data[d] + ndata["other"]
                 } else {
                     ndata[d] = data[d]
@@ -921,7 +955,7 @@
 
             var genres = Object.keys(ndata);
 
-            var data=Object.values(ndata)
+            var data = Object.values(ndata)
 
             var data = Object.values(data)
 
@@ -963,7 +997,7 @@
 
             // Adding data to each arc
             arcs.append("text")
-                .attr("transform",(d)=>{
+                .attr("transform", (d) => {
                     radius = 130;
                     return "translate(" +
                         ((radius - 12) * Math.sin(((d.endAngle - d.startAngle) / 2) + d.startAngle)) +
@@ -984,10 +1018,10 @@
                     }
                 })
                 //.data(pie(genres)) //ajout nom genre
-                .text(function(d, i){
+                .text(function (d, i) {
                     if (d.endAngle - d.startAngle > 0.3)
                         return genres[i];
-                    })
+                })
         }
 
 
