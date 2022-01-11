@@ -34,7 +34,7 @@
         }   
 
         body {
-            background-color: #1DB954;
+            background-color: #b7f8ce;
             font-family: Gotham;
             padding: 0;
             margin: 0;
@@ -315,7 +315,7 @@
             console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            csvGraphe7(listing_G,chronology_G)
+            //csvGraphe7(listing_G,chronology_G)
             since_start_date_R = {};
             since_start_date_R['hours_since_start_date'] = 55943;
             since_start_date_R['days_since_start_date'] = 2330;
@@ -327,7 +327,7 @@
             console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
-            csvGraphe7(listing_R,chronology_R)
+            //csvGraphe7(listing_R,chronology_R)
 
             //Draw graph
             histogram_1(bar_plot_1)
@@ -857,10 +857,24 @@
 
 
         function drawPieChart(data,divName){
+            tot = 0
+            for (d in data) {
+                tot += data[d]
+            }
 
-            var genres = Object.keys(data);
+            ndata = {}
+            ndata["other"] = 0
+            for (d in data){
+                if (data[d] < tot/25){
+                    ndata["other"] = data[d] + ndata["other"]
+                } else {
+                    ndata[d] = data[d]
+                }
+            }
                 
-            var data=Object.values(data)
+            var genres = Object.keys(ndata);
+                
+            var data=Object.values(ndata)
 
             var margin = {top: 30, right: 30, bottom: 70, left: 60},
                 width = 460 - margin.left - margin.right,
@@ -901,13 +915,30 @@
             // Adding data to each arc
             arcs.append("text")
                 .attr("transform",(d)=>{ 
-                        return "translate("+ 
-                        arc.centroid(d) + ")"; 
+                    radius = 130;
+                    return "translate(" +
+                        ((radius - 12) * Math.sin(((d.endAngle - d.startAngle) / 2) + d.startAngle)) +
+                        ", " +
+                        (-1 * (radius - 12) * Math.cos(((d.endAngle - d.startAngle) / 2) + d.startAngle)) +
+                        ")";
+                })
+                .style("text-anchor", function (d) {
+                    var rads = ((d.endAngle - d.startAngle) / 2) + d.startAngle;
+                    if ((rads > 7 * Math.PI / 4 && rads < Math.PI / 4) || (rads > 3 * Math.PI / 4 && rads < 5 * Math.PI / 4)) {
+                        return "middle";
+                    } else if (rads >= Math.PI / 4 && rads <= 3 * Math.PI / 4) {
+                        return "start";
+                    } else if (rads >= 5 * Math.PI / 4 && rads <= 7 * Math.PI / 4) {
+                        return "end";
+                    } else {
+                        return "middle";
+                    }
                 })
                 //.data(pie(genres)) //ajout nom genre
-                .text(function(d){
-                    return d.data; 
-                    });
+                .text(function(d, i){
+                    if (d.endAngle - d.startAngle > 0.3)
+                        return genres[i]; 
+                    })
         }
 
 
