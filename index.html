@@ -70,6 +70,19 @@
             grid-template-columns: 1fr 2fr;
             gap: 10px 2em;
             text-align: center;
+        .tooltip {
+            position: absolute;
+            opacity:0.8;
+            z-index:1000;
+            text-align:left;
+            border-radius:4px;
+            -moz-border-radius:4px;
+            -webkit-border-radius:4px;
+            padding:8px;
+            color:#fff;
+            background-color:#000;
+            font: 12px sans-serif;
+            max-width: 300px;
         }
     </style>
 
@@ -695,7 +708,9 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
-
+            const div = d3.select("#histo_1").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
             // Parse the Data
             var dataCsv = d3.csv("./graph_data/data_1.csv");
 
@@ -729,7 +744,21 @@
                     .attr("y", function (d) { return y(d.Valeur); })
                     .attr("width", x.bandwidth())
                     .attr("height", function (d) { return height - y(d.Valeur); })
-                    .attr("fill", "#69b3a2");
+                    .attr("fill", "#69b3a2")
+                    .on("mouseover", function (event, d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9)
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 50) + "px");
+                        div.html(Math.round(d.Valeur))
+
+                    })
+                    .on("mouseout", function (event, d) {
+                        div.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
             })
 
         }
@@ -945,8 +974,10 @@
 
             ndata = {}
             ndata["other"] = 0
-            for (d in data) {
-                if (data[d] < tot / 50) {
+            for (d in data){
+                //On garde seulement les genres qui sont > à 1/25 du total
+                //Les reste est dans la catégorie "other"
+                if (data[d] < tot/50){
                     ndata["other"] = data[d] + ndata["other"]
                 } else {
                     ndata[d] = data[d]
