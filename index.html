@@ -574,7 +574,7 @@
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
-
+            const div = d3.select("#" + divname).append("div")
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
@@ -595,14 +595,14 @@
 
                 // Add Y axis
                 const y = d3.scaleLinear()
-                    .domain([0, 60])
+                    .domain([0, 4000])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
 
                 // color palette = one color per subgroup
-                const color = d3.scaleOrdinal()
-                    .domain(subgroups)
+                var color = d3.scaleOrdinal().domain(subgroups)
+                    .range(d3.schemeSet3);
                     .range(['#e41a1c', '#377eb8', '#4daf4a'])
 
                 //stack the data? --> stack per subgroup
@@ -616,15 +616,29 @@
                     // Enter in the stack data = loop key per key = group per group
                     .data(stackedData)
                     .join("g")
-                    .attr("fill", d => color(d.key))
+                    .attr("fill", d => color(d))
                     .selectAll("rect")
                     // enter a second time = loop subgroup per subgroup to add all rectangles
                     .data(d => d)
                     .join("rect")
-                    .attr("x", d => x(d.data.Jour))
+                    .attr("x", d => x(d.data.Mois))
                     .attr("y", d => y(d[1]))
                     .attr("height", d => y(d[0]) - y(d[1]))
                     .attr("width", x.bandwidth())
+                    .on("mouseover", function (event, d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9)
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 50) + "px");
+                        div.html(d.data)
+
+                    })
+                    .on("mouseout", function (event, d) {
+                        div.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
             })
 
 
