@@ -275,6 +275,8 @@
         pie_chart_2 = []
 
 
+        allGenres = []
+
         Prenom = "None"
         id = 1
 
@@ -292,6 +294,8 @@
             var chronology_R = jsons[3];
 
             delete chronology_R['2014-12-25'];
+
+
 
             // console.log("Listing_G")
             // console.log(listing_G);
@@ -462,6 +466,23 @@
                 artistePop(listing)
 
             }
+            idColor = 0
+            Object.keys(listing_G).forEach(function (artist) {
+                if(allGenres[listing_G[artist].genres[0]] === undefined){
+                    allGenres[listing_G[artist].genres[0]] = idColor
+                    idColor+=1
+                }
+            });
+
+            Object.keys(listing_R).forEach(function (artist) {
+                if(allGenres[listing_R[artist].genres[0]] === undefined){
+                    allGenres[listing_R[artist].genres[0]] = idColor
+                    idColor+=1
+                }
+            });
+
+            //console.log(allGenres)
+
 
             Prenom = "Guillaume"
             since_start_date_G = {};
@@ -556,11 +577,13 @@
                 total_genres += listing[artist].genres.length
                 //console.log(listing[artist].genres)
                 for (genre in listing[artist].genres) {
+
                     if (tabGenres[listing[artist].genres[0]] === undefined) {
                         tabGenres[listing[artist].genres[0]] = 1
                     } else {
                         tabGenres[listing[artist].genres[0]] += 1
                     }
+
                 }
             });
 
@@ -1154,13 +1177,18 @@
                 .enter()
                 .append("g");
 
+            var myColor = d3.scaleSequential().domain([0,50])
+                .interpolator(d3.interpolateViridis);
+
             // Appending path
             arcs.append("path")
+                //.data(genres)
                 .attr("fill", (data, i) => {
                     let value = data.data;
-                    return d3.schemeSet3[i + 1];
+                    //console.log(allGenres[genres[i]])
+                    return myColor(allGenres[genres[i]]);
                 })
-                .attr("d", arc);
+                .attr("d", arc)
 
             // Adding data to each arc
             arcs.append("text")
