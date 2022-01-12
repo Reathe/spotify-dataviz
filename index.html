@@ -746,6 +746,14 @@
 
             d3.json("./graph_data/data_6_" + owner + ".json").then(function (data) {
 
+                dataFilter = data.links.filter(function(d){
+                    return d.value > 10
+                })
+
+                data.links = dataFilter
+
+                console.log(dataFilter)
+
                 // List of node names
                 var allNodes = data.nodes.map(d => d.name)
 
