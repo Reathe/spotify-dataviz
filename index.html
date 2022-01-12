@@ -38,8 +38,8 @@
         }
 
         body {
-            background-color: #ffffff;
-            /* background-color: #191414; */
+            /* background-color: #2b2a2a; */
+            background-color: #191414;
             font-family: Gotham;
             padding: 0;
             margin: 0;
@@ -54,11 +54,30 @@
             color: #606c71;
         }
 
+        .name{
+            grid-area: a;
+        }
+        .name2{
+            grid-area: b;
+        }
+        .graph{
+            grid-area: c;
+            color: #606c71;
+        }
+        .graph2{
+            grid-area: d;
+            color: #606c71;
+        }
+        .green{
+            color: #1DB954;
+            margin-left: 15em;
+            margin-top: 3em
+        }
         .box {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px 2em;
-            text-align: center;
+            text-align: center top  ;
         }
 
         /* div.box2>div {
@@ -71,17 +90,18 @@
             gap: 10px 2em;
             text-align: center;
         }
+
         .tooltip {
             position: absolute;
-            opacity:0.8;
-            z-index:1000;
-            text-align:left;
-            border-radius:4px;
-            -moz-border-radius:4px;
-            -webkit-border-radius:4px;
-            padding:8px;
-            color:#fff;
-            background-color:#000;
+            opacity: 0.8;
+            z-index: 1000;
+            text-align: left;
+            border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            padding: 8px;
+            color: #fff;
+            background-color: #000;
             font: 12px sans-serif;
             max-width: 300px;
         }
@@ -93,6 +113,17 @@
 
         th {
             height: 70px;
+        }
+
+        .container {
+            margin-top: 30px;
+            align-items: start;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+            grid-template-areas:
+                "a b"
+                "c d";
         }
 
     </style>
@@ -109,6 +140,7 @@
             le fait de revenir toujours vers les mêmes "valeurs sûres".
             A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
         </div>
+
         <div class="box">
             <div>Statistiques générales
                 <p></p>
@@ -136,6 +168,40 @@
                   </table> 
             </div>
             <div id="histo_1">Moyenne du nombre de chansons écoutées par artiste</div>
+
+        <div class="container">
+            <div class="name">Statistiques générales</div>
+            <div class="name2">Moyenne du nombre de chansons écoutées par artiste</div>
+            <div class ="graph green">
+                <div class="container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total artistes</th>
+                                <th>Total albums</th>
+                                <th>Total chansons</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Guillaume</td>
+                                <td class="topo" id="artistes_G"></td>
+                                <td class="topo" id="albums_G"></td>
+                                <td class="topo" id="chansons_G"></td>
+                            </tr>
+                            <tr>
+                                <td>Rafael</td>
+                                <td class="topo" id="artistes_R"></td>
+                                <td class="topo" id="albums_R"></td>
+                                <td class="topo" id="chansons_R"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="graph2" id="histo_1"></div>
+>>>>>>> 8002ad389f3ab92f594c76249438dad6ff2b8607
         </div>
     </section>
 
@@ -146,9 +212,12 @@
             A-t-on beaucoup de genres qui s'étendent sur tout le spectre musical ou une rotation de seulement quelques
             genres qui monopolisent tous les artistes ?
         </div>
-        <div class="box">
-            <div id="pie_chart_1"></div>
-            <div id="pie_chart_2"></div>
+        <div class="container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+
+            <div class="graph" id="pie_chart_1"></div>
+            <div class="graph2" id="pie_chart_2"></div>
         </div>
 
     </section>
@@ -164,9 +233,12 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="box2">
-            <div id="curve_1">Guillaume</div>
-            <div id="curve_2">Rafael</div>
+        <div class="box2 container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+
+            <div class="graph" id="curve_1"></div>
+            <div class="graph2" id="curve_2"></div>
         </div>
 
     </section>
@@ -180,9 +252,11 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-        <div class="box2">
-            <div id="bar4_chart_1"></div>
-            <div id="bar4_chart_2"></div>
+        <div class="box2 container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="bar4_chart_1"></div>
+            <div class="graph2" id="bar4_chart_2"></div>
         </div>
     </section>
 
@@ -192,9 +266,11 @@
         <div class="topo">
             Il s'agit des variations de temps d'écoute dans la journée.
         </div>
-        <div class="box">
-            <div id="circular_plot_1"></div>
-            <div id="circular_plot_2"></div>
+        <div class="box container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="circular_plot_1"></div>
+            <div class="graph2" id="circular_plot_2"></div>
         </div>
     </section>
 
@@ -204,9 +280,11 @@
             Une session est définir par la présence d'écoutes dans des heures consécutives. On montre ici comment les
             sessions se sont étendues dans la journée.
         </div>
-        <div class="box">
-            <div id="arc_diagram_1"></div>
-            <div id="arc_diagram_2"></div>
+        <div class="box container">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="arc_diagram_1"></div>
+            <div class="graph2" id="arc_diagram_2"></div>
         </div>
     </section>
 
@@ -227,7 +305,7 @@
     <script>
 
         //lignes Artiste, album, chansons
-        data_graph_1 = [["Artiste", "Album", "Chanson"]]
+        data_graph_1 = [[]];
         bar_plot_1 = [["Prenom", "Valeur"]]
 
         pie_chart_2 = []
@@ -412,6 +490,7 @@
                 //console.log("average number of songs listened to per album: " + average_songs_per_album);
 
                 data_graph_1[id] = [total_artists, total_albums, total_songs]
+                console.log(data_graph_1[1])
                 bar_plot_1[id] = [Prenom, average_songs_per_artist]
 
                 genres(listing)
@@ -447,6 +526,12 @@
             //csvGraphe7(listing_R,chronology_R)
             stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
+            document.getElementById("artistes_G").textContent = data_graph_1[1][0];
+            document.getElementById("albums_G").textContent = data_graph_1[1][1];
+            document.getElementById("chansons_G").textContent = data_graph_1[1][2];
+            document.getElementById("artistes_R").textContent = data_graph_1[2][0];
+            document.getElementById("albums_R").textContent = data_graph_1[2][1];
+            document.getElementById("chansons_R").textContent = data_graph_1[2][2];
 
             //Draw graph
             histogram_1(bar_plot_1)
@@ -539,13 +624,13 @@
 
             tabGraphe7 = [nomArtistes]
 
-            zero = new Array(nomArtistes.length-1).fill(0);
+            zero = new Array(nomArtistes.length - 1).fill(0);
 
             for (jour in chronology) {
-                mois = jour.substr(0,7);
+                mois = jour.substr(0, 7);
                 exists = false;
-                for (ligne in tabGraphe7){
-                    if (tabGraphe7[ligne][0] == mois){
+                for (ligne in tabGraphe7) {
+                    if (tabGraphe7[ligne][0] == mois) {
                         exists = true;
                         break;
                     }
@@ -565,18 +650,18 @@
                         if (tabGraphe7[0][val] == chronology[jour][ecoute].artist) {
                             //console.log("Test")
                             for (let j = 1; j < tabGraphe7.length; j++) {
-                                if (tabGraphe7[j][0] == mois){
+                                if (tabGraphe7[j][0] == mois) {
                                     tabGraphe7[j][val] += 1
                                 }
                             }
-                            
+
                         }
                     }
 
                 }
             }
             temp = tabGraphe7.shift();
-            tabGraphe7.sort(function cmp(a,b) {
+            tabGraphe7.sort(function cmp(a, b) {
                 if (a[0] < b[0])
                     return -1;
                 if (a[0] > b[0])
@@ -597,7 +682,7 @@
         function stacked_barplot_7(data, divname, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 10, right: 30, bottom: 20, left: 50 },
+            const margin = { top: 10, right: 30, bottom: 40, left: 50 },
                 width = 1800 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
@@ -609,6 +694,8 @@
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
             const div = d3.select("#" + divname).append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
@@ -625,19 +712,21 @@
                     .padding([0.2])
                 svg.append("g")
                     .attr("transform", `translate(0, ${height})`)
-                    .call(d3.axisBottom(x).tickSizeOuter(0));
+                    .call(d3.axisBottom(x).tickSizeOuter(0))
+                    .selectAll("text")
+                    .attr("transform", "translate(-20,15)rotate(-45)");
 
                 // Add Y axis
                 const y = d3.scaleLinear()
-                    .domain([0, 4000])
+                    .domain([0, 3500])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
 
                 // color palette = one color per subgroup
                 var color = d3.scaleOrdinal().domain(subgroups)
-                    .range(d3.schemeSet3)
-                    .range(['#e41a1c', '#377eb8', '#4daf4a'])
+                    .range(d3.schemeSet3);
+
 
                 //stack the data? --> stack per subgroup
                 const stackedData = d3.stack()
@@ -666,13 +755,13 @@
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
                         div.html(d.data)
-
                     })
                     .on("mouseout", function (event, d) {
                         div.transition()
                             .duration(500)
                             .style("opacity", 0);
-                    });
+                    })
+                    ;
             })
 
 
@@ -684,7 +773,7 @@
             // set the dimensions and margins of the graph
             const margin = { top: 0, right: 30, bottom: 20, left: 30 },
                 width = 500 - margin.left - margin.right,
-                height = 500 - margin.top - margin.bottom;
+                height = 260 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divName)
@@ -716,7 +805,7 @@
                     .attr("cx", d => x(d.name))
                     .attr("cy", height - 30)
                     .attr("r", 8)
-                    .style("fill", "#69b3a2")
+                    .style("fill", "#1DB954")
 
                 // And give them a label
                 svg
@@ -728,6 +817,7 @@
                     .attr("y", height - 10)
                     .text(d => d.name)
                     .style("text-anchor", "middle")
+                    .style("fill", "#606c71")
 
                 // Add links between nodes. Here is the tricky part.
                 // In my input data, links are provided between nodes -id-, NOT between node names.
@@ -755,7 +845,7 @@
                             .join(' ');
                     })
                     .style("fill", "none")
-                    .attr("stroke", "black")
+                    .attr("stroke", "#606c71")
             })
         }
 
@@ -902,6 +992,7 @@
                     .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
+                    .attr("fill", "#606c71")
 
                 // inner labels
                 svg.append("g")
@@ -916,6 +1007,7 @@
                     .attr("transform", function (d) { return (x(d.Heures) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(0)" : "rotate(180)"; })
                     .style("font-size", "11px")
                     .attr("alignment-baseline", "middle")
+                    .attr("fill", "#606c71")
 
             });
 
@@ -1047,10 +1139,10 @@
 
             ndata = {}
             ndata["other"] = 0
-            for (d in data){
+            for (d in data) {
                 //On garde seulement les genres qui sont > à 1/25 du total
                 //Les reste est dans la catégorie "other"
-                if (data[d] < tot/50){
+                if (data[d] < tot / 50) {
                     ndata["other"] = data[d] + ndata["other"]
                 } else {
                     ndata[d] = data[d]
@@ -1125,7 +1217,9 @@
                 .text(function (d, i) {
                     if (d.endAngle - d.startAngle > 0.3)
                         return genres[i];
-                })
+                })                
+                .style("fill", "#606c71")
+
         }
 
 
