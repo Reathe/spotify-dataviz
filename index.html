@@ -85,6 +85,16 @@
             font: 12px sans-serif;
             max-width: 300px;
         }
+
+        table {
+            width: 100%;
+            font-size: 1.50rem;
+        }
+
+        th {
+            height: 70px;
+        }
+
     </style>
 
     <section class="page-header">
@@ -100,7 +110,31 @@
             A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
         </div>
         <div class="box">
-            <div>Statistiques générales</div>
+            <div>Statistiques générales
+                <p></p>
+                <table>
+                    <tr>
+                      <th></th>
+                      <th>Guillaume</th>
+                      <th>Rafael</th>
+                    </tr>
+                    <tr>
+                      <td>Artistes</td>
+                      <td>97</td>
+                      <td>374</td>
+                    </tr>
+                    <tr>
+                      <td>Albums</td>
+                      <td>1195</td>
+                      <td>3182</td>
+                    </tr>
+                    <tr>
+                        <td>Chansons</td>
+                        <td>7622</td>
+                        <td>6583</td>
+                    </tr>
+                  </table> 
+            </div>
             <div id="histo_1">Moyenne du nombre de chansons écoutées par artiste</div>
         </div>
     </section>
@@ -370,12 +404,12 @@
                 var average_albums_per_artist = total_albums / total_artists;
                 var average_songs_per_artist = total_songs / total_artists;
                 var average_songs_per_album = total_songs / total_albums;
-                // console.log("total number of artists: " + total_artists);
-                // console.log("total number of albums: " + total_albums);
+                //console.log("total number of artists: " + total_artists);
+                //console.log("total number of albums: " + total_albums);
                 // console.log("total number of songs: " + total_songs);
-                // console.log("average number of albums listened to per artist: " + average_albums_per_artist);
-                // console.log("average number of songs listened to per artist: " + average_songs_per_artist);
-                // console.log("average number of songs listened to per album: " + average_songs_per_album);
+                //console.log("average number of albums listened to per artist: " + average_albums_per_artist);
+                //console.log("average number of songs listened to per artist: " + average_songs_per_artist);
+                //console.log("average number of songs listened to per album: " + average_songs_per_album);
 
                 data_graph_1[id] = [total_artists, total_albums, total_songs]
                 bar_plot_1[id] = [Prenom, average_songs_per_artist]
@@ -602,7 +636,7 @@
 
                 // color palette = one color per subgroup
                 var color = d3.scaleOrdinal().domain(subgroups)
-                    .range(d3.schemeSet3);
+                    .range(d3.schemeSet3)
                     .range(['#e41a1c', '#377eb8', '#4daf4a'])
 
                 //stack the data? --> stack per subgroup
