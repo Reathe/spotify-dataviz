@@ -282,10 +282,10 @@
 
         Promise.all([
 
-            d3.json("/data_final/listing_G.json"),
-            d3.json("/data_final/listing_R.json"),
-            d3.json("/data_final/chronology_G.json"),
-            d3.json("/data_final/chronology_R.json")
+            d3.json("./data_final/listing_G.json"),
+            d3.json("./data_final/listing_R.json"),
+            d3.json("./data_final/chronology_G.json"),
+            d3.json("./data_final/chronology_R.json")
 
         ]).then(function (jsons) {
             var listing_G = jsons[0];
