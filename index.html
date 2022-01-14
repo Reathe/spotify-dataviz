@@ -52,6 +52,15 @@
 
         .topo {
             color: #606c71;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .topo2 {
+            color: #606c71;
         }
 
         .name{
@@ -130,9 +139,11 @@
     <section class="Question_1">
         <div>Exploration vs. Chauvinisme (artistes)</div>
         <div class="topo">
+            <div> 
             Ici on cherche à faire apparaître un envie constante de nouveau dans les habitudes d'écoute ou à l'inverse
             le fait de revenir toujours vers les mêmes "valeurs sûres".
             A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
+            </div>
         </div>
         <div class="container">
             <div class="name">Statistiques générales</div>
@@ -151,15 +162,15 @@
                         <tbody>
                             <tr>
                                 <td>Guillaume</td>
-                                <td class="topo" id="artistes_G"></td>
-                                <td class="topo" id="albums_G"></td>
-                                <td class="topo" id="chansons_G"></td>
+                                <td class="topo2" id="artistes_G"></td>
+                                <td class="topo2" id="albums_G"></td>
+                                <td class="topo2" id="chansons_G"></td>
                             </tr>
                             <tr>
                                 <td>Rafael</td>
-                                <td class="topo" id="artistes_R"></td>
-                                <td class="topo" id="albums_R"></td>
-                                <td class="topo" id="chansons_R"></td>
+                                <td class="topo2" id="artistes_R"></td>
+                                <td class="topo2" id="albums_R"></td>
+                                <td class="topo2" id="chansons_R"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -759,7 +770,7 @@
 
             // set the dimensions and margins of the graph
             const margin = { top: 0, right: 30, bottom: 20, left: 30 },
-                width = 500 - margin.left - margin.right,
+                width = 900 - margin.left - margin.right,
                 height = 260 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
@@ -884,14 +895,17 @@
                     .call(d3.axisBottom(x))
                     .selectAll("text")
                     .attr("transform", "translate(-10,0)rotate(-45)")
-                    .style("text-anchor", "end");
+                    .style("text-anchor", "end")
+                    .attr("fill", "#1DB954")
+                    .style("font-size", "16px")
 
                 // Add Y axis
                 var y = d3.scaleLinear()
                     .domain([0, d3.max(data, d => d.Valeur)])
                     .range([height, 0]);
                 svg.append("g")
-                    .call(d3.axisLeft(y));
+                    .call(d3.axisLeft(y))
+                    .attr("fill", "#1DB954")
 
                 // Bars
                 var bars = svg.selectAll("mybar")
