@@ -71,11 +71,11 @@
         }
         .graph{
             grid-area: c;
-            color: #606c71;
+            color: #1DB954;
         }
         .graph2{
             grid-area: d;
-            color: #606c71;
+            color: #1DB954;
         }
         .green{
             color: #1DB954;
@@ -293,10 +293,10 @@
 
         Promise.all([
 
-            d3.json("/data_final/listing_G.json"),
-            d3.json("/data_final/listing_R.json"),
-            d3.json("/data_final/chronology_G.json"),
-            d3.json("/data_final/chronology_R.json")
+            d3.json("./data_final/listing_G.json"),
+            d3.json("./data_final/listing_R.json"),
+            d3.json("./data_final/chronology_G.json"),
+            d3.json("./data_final/chronology_R.json")
 
         ]).then(function (jsons) {
             var listing_G = jsons[0];
@@ -682,7 +682,7 @@
 
             // set the dimensions and margins of the graph
             const margin = { top: 10, right: 30, bottom: 40, left: 50 },
-                width = 1800 - margin.left - margin.right,
+                width = 1500 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
@@ -1151,7 +1151,7 @@
             for (d in data) {
                 //On garde seulement les genres qui sont > à 1/25 du total
                 //Les reste est dans la catégorie "other"
-                if (data[d] < tot / 50) {
+                if (data[d] < tot / 40) {
                     ndata["other"] = data[d] + ndata["other"]
                 } else {
                     ndata[d] = data[d]
