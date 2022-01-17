@@ -63,30 +63,35 @@
             color: #606c71;
         }
 
-        .name{
+        .name {
             grid-area: a;
         }
-        .name2{
+
+        .name2 {
             grid-area: b;
         }
-        .graph{
+
+        .graph {
             grid-area: c;
             color: #1DB954;
         }
-        .graph2{
+
+        .graph2 {
             grid-area: d;
             color: #1DB954;
         }
-        .green{
+
+        .green {
             color: #1DB954;
             margin-left: 15em;
             margin-top: 3em
         }
+
         .box {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px 2em;
-            text-align: center top  ;
+            text-align: center top;
         }
 
         /* div.box2>div {
@@ -114,6 +119,7 @@
             font: 12px sans-serif;
             max-width: 300px;
         }
+
         .container {
             margin-top: 30px;
             align-items: start;
@@ -125,10 +131,9 @@
                 "c d";
         }
 
-        table{
+        table {
             font-size: 30px;
         }
-
     </style>
 
     <section class="page-header">
@@ -139,16 +144,17 @@
     <section class="Question_1">
         <div>Exploration vs. Chauvinisme (artistes)</div>
         <div class="topo">
-            <div> 
-            Ici on cherche à faire apparaître un envie constante de nouveau dans les habitudes d'écoute ou à l'inverse
-            le fait de revenir toujours vers les mêmes "valeurs sûres".
-            A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
+            <div>
+                Ici on cherche à faire apparaître un envie constante de nouveau dans les habitudes d'écoute ou à
+                l'inverse
+                le fait de revenir toujours vers les mêmes "valeurs sûres".
+                A-t-on beaucoup d'artistes avec peu de chansons chacun (large), ou l'inverse (profond) ?
             </div>
         </div>
         <div class="container">
             <div class="name">Statistiques générales</div>
             <div class="name2">Moyenne du nombre de chansons écoutées par artiste</div>
-            <div class ="graph green">
+            <div class="graph green">
                 <div class="container">
                     <table>
                         <thead>
@@ -476,16 +482,16 @@
             }
             idColor = 0
             Object.keys(listing_G).forEach(function (artist) {
-                if(allGenres[listing_G[artist].genres[0]] === undefined){
+                if (allGenres[listing_G[artist].genres[0]] === undefined) {
                     allGenres[listing_G[artist].genres[0]] = idColor
-                    idColor+=1
+                    idColor += 1
                 }
             });
 
             Object.keys(listing_R).forEach(function (artist) {
-                if(allGenres[listing_R[artist].genres[0]] === undefined){
+                if (allGenres[listing_R[artist].genres[0]] === undefined) {
                     allGenres[listing_R[artist].genres[0]] = idColor
-                    idColor+=1
+                    idColor += 1
                 }
             });
             allGenres["other"] = idColor
@@ -503,7 +509,7 @@
             // console.log("Guillaume");
             average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            //csvGraphe7(listing_G, chronology_G);
+            // csvGraphe7(listing_G, chronology_G);
             stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
             since_start_date_R = {};
@@ -517,7 +523,7 @@
             // console.log("Rafael");
             average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
-            //csvGraphe7(listing_R,chronology_R)
+            // csvGraphe7(listing_R, chronology_R)
             stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
             document.getElementById("artistes_G").textContent = data_graph_1[1][0];
@@ -559,7 +565,7 @@
 
         function artisteTop(listing) {
 
-            console.log("Artiste Top")
+            // console.log("Artiste Top")
 
             tabArtisteTop = [["artist", "top"]]
             //Proportion = nb total d'un genre / total des genres par artiste
@@ -577,7 +583,7 @@
 
 
         function genres(listing) {
-            console.log("Genres")
+            // console.log("Genres")
 
             tabGenres = {}
             //Proportion = nb total d'un genre / total des genres par artiste
@@ -596,8 +602,8 @@
                 }
             });
 
-            console.log("total genders " + total_genres)
-            console.log(tabGenres)
+            // console.log("total genders " + total_genres)
+            // console.log(tabGenres)
 
             drawPieChart(tabGenres, "pie_chart_" + id)
 
@@ -606,7 +612,7 @@
 
         function csvGraphe7(listing, chronology) {
 
-            console.log("Graphe 7")
+            // console.log("Graphe 7")
 
             nomArtistes = []
             //Proportion = nb total d'un genre / total des genres par artiste
@@ -634,7 +640,7 @@
                 if (!exists)
                     tabGraphe7.push([mois].concat(zero));
             }
-            console.log(tabGraphe7)
+            // console.log(tabGraphe7)
 
             for (jour in chronology) {
                 mois = jour.substr(0, 7)
@@ -648,6 +654,28 @@
                             for (let j = 1; j < tabGraphe7.length; j++) {
                                 if (tabGraphe7[j][0] == mois) {
                                     tabGraphe7[j][val] += 1
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            for (jour in chronology) {
+                mois = jour.substr(0, 7)
+                for (ecoute in chronology[jour]) {
+                    //console.log(chronology[jour][ecoute].artist)
+
+                    for (val in tabGraphe7[0]) {
+                        //console.log(chronology[jour].artist)
+                        if (tabGraphe7[0][val] == chronology[jour][ecoute].artist) {
+                            //console.log("Test")
+                            for (let j = 1; j < tabGraphe7.length; j++) {
+                                if (tabGraphe7[j][0] == mois) {
+
+                                    if (tabGraphe7[j][val] < 75)
+                                        tabGraphe7[j][val] = 0
                                 }
                             }
 
@@ -695,6 +723,8 @@
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
+                // console.log(artistes)
+
                 // List of subgroups = header of the csv files = soil condition here
                 const subgroups = data.columns.slice(1)
 
@@ -712,9 +742,11 @@
                     .selectAll("text")
                     .attr("transform", "translate(-20,15)rotate(-45)");
 
+
+                borneMax = (owner == 1 ? 2600 : 800)
                 // Add Y axis
                 const y = d3.scaleLinear()
-                    .domain([0, 3500])
+                    .domain([0, borneMax])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -749,7 +781,7 @@
                             .style("opacity", .9)
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
-                        div.html(d.data)
+                        div.html(d3.select(this.parentNode).datum().key)
                     })
                     .on("mouseout", function (event, d) {
                         div.transition()
@@ -783,13 +815,13 @@
 
             d3.json("./graph_data/data_6_" + owner + ".json").then(function (data) {
 
-                dataFilter = data.links.filter(function(d){
+                dataFilter = data.links.filter(function (d) {
                     return d.value > 10
                 })
 
                 data.links = dataFilter
 
-                console.log(dataFilter)
+                // console.log(dataFilter)
 
                 // List of node names
                 var allNodes = data.nodes.map(d => d.name)
@@ -1064,8 +1096,8 @@
                     .call(d3.axisLeft(y));
 
                 const div = d3.select("#" + divName).append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
 
                 // Bars
                 svg.selectAll("mybar")
@@ -1084,7 +1116,7 @@
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
                         div.html(Math.round(d.pop * 100) / 100
-)
+                        )
 
                     })
                     .on("mouseout", function (event, d) {
@@ -1106,7 +1138,7 @@
             // set the dimensions and margins of the graph
             var margin = { top: 30, right: 60, bottom: 70, left: 60 },
                 width = 1500
-                height = 400 - margin.top - margin.bottom;
+            height = 400 - margin.top - margin.bottom;
 
 
             // append the svg object to the body of the page
@@ -1143,8 +1175,8 @@
                     .call(d3.axisLeft(y));
 
                 const div = d3.select("#" + divName).append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
 
                 // Bars
                 svg.selectAll("mybar")
@@ -1153,7 +1185,7 @@
                     .append("rect")
                     .attr("x", function (d) { return x(d.artist); })
                     .attr("y", function (d) { return y(d.top); })
-                    .attr("width", function(d){
+                    .attr("width", function (d) {
                         //console.log(x.bandwidth())
                         return 5
                     })
@@ -1166,7 +1198,7 @@
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
                         div.html(Math.round(d.top * 100) / 100
-)
+                        )
 
                     })
                     .on("mouseout", function (event, d) {
@@ -1231,7 +1263,7 @@
                 .enter()
                 .append("g");
 
-            var myColor = d3.scaleSequential().domain([0,50])
+            var myColor = d3.scaleSequential().domain([0, 50])
                 .interpolator(d3.interpolateViridis);
 
             // Appending path
@@ -1270,7 +1302,7 @@
                 .text(function (d, i) {
                     if (d.endAngle - d.startAngle > 0.3)
                         return genres[i];
-                })                
+                })
                 .style("fill", "#606c71")
 
         }
