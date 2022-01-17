@@ -208,13 +208,10 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="box2 container">
-            <div class="name">Guillaume</div>
-            <div class="name2">Rafael</div>
-
-            <div class="graph" id="curve_1"></div>
-            <div class="graph2" id="curve_2"></div>
-        </div>
+        <div class="name">Guillaume</div>
+        <div class="box" id="curve_1"></div>
+        <div class="name2">Rafael</div>
+        <div class="box" id="curve_2"></div>
 
     </section>
 
@@ -227,12 +224,12 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-        <div class="box2 container">
-            <div class="name">Guillaume</div>
-            <div class="name2">Rafael</div>
-            <div class="graph" id="bar4_chart_1"></div>
-            <div class="graph2" id="bar4_chart_2"></div>
-        </div>
+
+        <div class="name">Guillaume</div>
+        <div class="box" id="bar4_chart_1"></div>
+        <div class="name2">Rafael</div>
+        <div class="box" id="bar4_chart_2"></div>
+
     </section>
 
     <div>Différences liées au temps d'écoute</div>
@@ -1029,7 +1026,7 @@
 
             // set the dimensions and margins of the graph
             var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 4 / Math.log(data.length / 53.0) * data.length - margin.left - margin.right,
+                width = 1500,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
@@ -1065,6 +1062,10 @@
                 svg.append("g")
                     .call(d3.axisLeft(y));
 
+                const div = d3.select("#" + divName).append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
                 // Bars
                 svg.selectAll("mybar")
                     .data(data)
@@ -1072,9 +1073,24 @@
                     .append("rect")
                     .attr("x", function (d) { return x(d.artist); })
                     .attr("y", function (d) { return y(d.pop); })
-                    .attr("width", x.bandwidth())
+                    .attr("width", 5)
                     .attr("height", function (d) { return height - y(d.pop); })
                     .attr("fill", "#69b3a2")
+                    .on("mouseover", function (event, d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9)
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 50) + "px");
+                        div.html(Math.round(d.pop * 100) / 100
+)
+
+                    })
+                    .on("mouseout", function (event, d) {
+                        div.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
             })
 
 
@@ -1088,7 +1104,7 @@
 
             // set the dimensions and margins of the graph
             var margin = { top: 30, right: 60, bottom: 70, left: 60 },
-                width = 4 / Math.log(data.length / 53.0) * data.length - margin.left - margin.right,
+                width = 1500
                 height = 400 - margin.top - margin.bottom;
 
 
@@ -1110,7 +1126,7 @@
                 var x = d3.scaleBand()
                     .range([0, width])
                     .domain(data.map(d => d.artist))
-                    .padding(0.2);
+                    .padding(0.20);
                 svg.append("g")
                 // .attr("transform", "translate(0," + height + ")")
                 // .call(d3.axisBottom(x));
@@ -1125,6 +1141,10 @@
                 svg.append("g")
                     .call(d3.axisLeft(y));
 
+                const div = d3.select("#" + divName).append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
                 // Bars
                 svg.selectAll("mybar")
                     .data(data)
@@ -1132,9 +1152,27 @@
                     .append("rect")
                     .attr("x", function (d) { return x(d.artist); })
                     .attr("y", function (d) { return y(d.top); })
-                    .attr("width", x.bandwidth())
+                    .attr("width", function(d){
+                        //console.log(x.bandwidth())
+                        return 5
+                    })
                     .attr("height", function (d) { return height - y(d.top); })
                     .attr("fill", "#69b3a2")
+                    .on("mouseover", function (event, d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9)
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 50) + "px");
+                        div.html(Math.round(d.top * 100) / 100
+)
+
+                    })
+                    .on("mouseout", function (event, d) {
+                        div.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                    });
             })
 
         }
