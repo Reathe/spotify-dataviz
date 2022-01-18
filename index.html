@@ -93,7 +93,6 @@
             gap: 10px 2em;
             text-align: center top;
             margin: auto;
-            width: 65%;
         }
 
         /* div.box2>div {
@@ -123,14 +122,24 @@
         }
 
         .container {
-            margin-top: 30px;
             align-items: start;
             display: grid;
+            margin-bottom: 2em;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 10px;
             grid-template-areas:
                 "a b"
                 "c d";
+        }
+        .containerV {
+            align-items: start;
+            display: grid;
+            margin-bottom: 4em;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "a a"
+                "c c"
+                "b b"
+                "d d";
         }
 
         table {
@@ -161,7 +170,6 @@
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Total artistes</th>
                                 <th>Total albums</th>
                                 <th>Total chansons</th>
@@ -216,10 +224,12 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="name">Guillaume</div>
-        <div class="box" id="curve_1"></div>
-        <div class="name2">Rafael</div>
-        <div class="box" id="curve_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="graph" id="curve_1"></div>
+            <div class="name2">Rafael</div>
+            <div class="graph2" id="curve_2"></div>
+        </div>
 
     </section>
 
@@ -232,11 +242,12 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-
-        <div class="name">Guillaume</div>
-        <div class="box" id="bar4_chart_1"></div>
-        <div class="name2">Rafael</div>
-        <div class="box" id="bar4_chart_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="graph" id="bar4_chart_1"></div>
+            <div class="name2">Rafael</div>
+            <div class="graph2" id="bar4_chart_2"></div>
+        </div>
 
     </section>
 
@@ -274,11 +285,11 @@
             On affiche la chronologie totale, en différenciant les artistes, pour faire apparaitre les découvertes
             d'artistes, les vagues d'écoutes, si certains sont tombés dans l'oubli, etc.
         </div>
-        <div class="box">
-            <div id="stacked_barplot_1"></div>
-        </div>
-        <div class="box">
-            <div id="stacked_barplot_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="stacked_barplot_1"></div>
+            <div class="graph2" id="stacked_barplot_2"></div>
         </div>
     </section>
 
@@ -715,8 +726,8 @@
             // append the svg object to the body of the page
             const svg = d3.select("#" + divname)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 500")
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
             const div = d3.select("#" + divname).append("div")
@@ -800,15 +811,15 @@
         function arc_diagram_6(data, divName, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 0, right: 30, bottom: 20, left: 30 },
-                width = 900 - margin.left - margin.right,
+            const margin = { top: 0, right: 0, bottom: 20, left: 80 },
+                width = 700 - margin.left - margin.right,
                 height = 260 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 800 500")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -896,18 +907,18 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 30, right: 0, bottom: 0, left: 100 },
+                width = 380 - margin.left - margin.right,
+                height = 250 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#histo_1")
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 700 400")
                 .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
+                    "translate(" + 200 + "," + margin.top + ")");
             const div = d3.select("#histo_1").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
@@ -974,8 +985,8 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-                width = 460 - margin.left - margin.right,
+            var margin = { top: 0, right: 0, bottom: 0, left: 150 },
+                width = 660 - margin.left - margin.right,
                 height = 460 - margin.top - margin.bottom,
                 innerRadius = 90,
                 outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
@@ -983,10 +994,12 @@
             // append the svg object
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 700 460")
+                //.attr("width", width + margin.left + margin.right)
+                //.attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
+                .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2.5 + margin.top) + ")");
 
             datacsv = d3.csv("./graph_data/data_5_" + id + ".csv");
 
@@ -1060,15 +1073,15 @@
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 1500,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 10, right: 60, bottom: 0, left: 100 },
+                width = 1340,
+                height = 280 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 300")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -1092,7 +1105,7 @@
 
                 // Add Y axis
                 var y = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.pop)])
+                    .domain([0, 100])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -1138,16 +1151,16 @@
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 60, bottom: 70, left: 60 },
-                width = 1500
-            height = 400 - margin.top - margin.bottom;
+            var margin = { top: 10, right: 60, bottom: 0, left: 100},
+                width = 1340
+            height = 280 - margin.top - margin.bottom;
 
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 300")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -1171,7 +1184,7 @@
 
                 // Add Y axis
                 var y = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.top)])
+                    .domain([0, 1])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -1237,15 +1250,16 @@
 
             var data = Object.values(data)
 
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
+            var margin = { top: 30, right: 0, bottom: 0, left:  0},
+                width = 400 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 600 400")
+                .attr("transform", "translate(100,0)");
 
 
             // Creating Pie generator
@@ -1257,7 +1271,7 @@
                 .outerRadius(100);
 
             let g = svg.append("g")
-                .attr("transform", "translate(150,120)");
+                .attr("transform", "translate(260,200)");
 
             // Grouping different arcs
             var arcs = g.selectAll("arc")
@@ -1281,7 +1295,7 @@
             // Adding data to each arc
             arcs.append("text")
                 .attr("transform", (d) => {
-                    radius = 130;
+                    radius = 135;
                     return "translate(" +
                         ((radius - 12) * Math.sin(((d.endAngle - d.startAngle) / 2) + d.startAngle)) +
                         ", " +
