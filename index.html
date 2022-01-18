@@ -772,14 +772,34 @@
                 const stackedData = d3.stack()
                     .keys(subgroups)
                     (data)
-
+                var total_listen_time = {}
+                console.log(data)
+                for (month in data){
+                    for (artist in data[month]){
+                        //console.log(artist, data[month][artist])
+                        if (artist == 'Mois')
+                            continue;
+                        console.log(artist);
+                        if (total_listen_time.hasOwnProperty(artist))
+                            total_listen_time[artist] = parseInt(data[month][artist]) + total_listen_time[artist]
+                        else
+                            total_listen_time[artist] = parseInt(data[month][artist])
+                    }
+                }
+                console.log(total_listen_time)
                 // Show the bars
                 svg.append("g")
                     .selectAll("g")
                     // Enter in the stack data = loop key per key = group per group
                     .data(stackedData)
                     .join("g")
-                    .attr("fill", d => color(d))
+                    .attr("fill", d => {
+                        //console.log(d.key, total_listen_time[d.key])
+                        if (total_listen_time[d.key] < 100)
+                            return '#696969'
+                        else
+                            return color(d)
+                    })
                     .selectAll("rect")
                     // enter a second time = loop subgroup per subgroup to add all rectangles
                     .data(d => d)
