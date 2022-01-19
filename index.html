@@ -1115,7 +1115,7 @@
                             .style("opacity", .9)
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
-                        div.html(Math.round(d.pop * 100) / 100
+                        div.html(d.artist + " : " + Math.round(d.pop * 100) / 100
                         )
 
                     })
@@ -1197,9 +1197,8 @@
                             .style("opacity", .9)
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 50) + "px");
-                        div.html(Math.round(d.top * 100) / 100
+                        div.html(d.artist + " : " + Math.round(d.top * 100) / 100
                         )
-
                     })
                     .on("mouseout", function (event, d) {
                         div.transition()
