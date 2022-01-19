@@ -34,6 +34,6 @@ Variations in listening habits :
 
 ## Liens
 
-https://lyondataviz.github.io/teaching/lyon1-m2/2021/projets.html#rendu
-https://lyondataviz.github.io/teaching/lyon1-m2/2021/
-https://www.univ-lyon1.fr/
+- https://lyondataviz.github.io/teaching/lyon1-m2/2021/projets.html#rendu
+- https://lyondataviz.github.io/teaching/lyon1-m2/2021/
+- https://www.univ-lyon1.fr/
