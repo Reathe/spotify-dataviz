@@ -719,15 +719,15 @@
         function stacked_barplot_7(data, divname, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 10, right: 30, bottom: 40, left: 50 },
+            const margin = { top: 60, right: 30, bottom: 0, left: 50 },
                 width = 1500 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                height = 600 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divname)
                 .append("svg")
                 .attr("preserveAspectRatio", "xMidYMid meet")
-                .attr("viewBox", "0 0 1500 500")
+                .attr("viewBox", "0 0 1500 650")
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
             const div = d3.select("#" + divname).append("div")
@@ -736,11 +736,26 @@
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
-                // console.log(artistes)
-
+                console.log(data)
+                var total_listen_time = {}
+                for (month in data) {
+                    if (month == 'columns')
+                        continue;
+                    for (const artist in data[month]) {
+                        //console.log(artist, data[month][artist])
+                        if (artist == 'Mois')
+                            continue;
+                        if (total_listen_time.hasOwnProperty(artist))
+                            total_listen_time[artist] = parseInt(data[month][artist]) + total_listen_time[artist]
+                        else
+                            total_listen_time[artist] = parseInt(data[month][artist])
+                    }
+                }
                 // List of subgroups = header of the csv files = soil condition here
-                const subgroups = data.columns.slice(1)
-
+                var subgroups = data.columns.slice(1)
+                subgroups.sort(function (a, b) {
+                    return total_listen_time[b] - total_listen_time[a]
+                });
                 // List of groups = species here = value of the first column called group -> I show them on the X axis
                 const groups = data.map(d => (d.Mois))
 
@@ -756,7 +771,7 @@
                     .attr("transform", "translate(-20,15)rotate(-45)");
 
 
-                borneMax = (owner == 1 ? 2600 : 800)
+                borneMax = (owner == 1 ? 2000 : 800)
                 // Add Y axis
                 const y = d3.scaleLinear()
                     .domain([0, borneMax])
@@ -769,17 +784,36 @@
                     .range(d3.schemeSet3);
 
                 //stack the data? --> stack per subgroup
-                const stackedData = d3.stack()
+                var stackedData = d3.stack()
                     .keys(subgroups)
                     (data)
 
+                var grey_limit = (owner == 1 ? 2300 : 500)
+
+                // low_listens = stackedData.filter(function (value, index, arr) {
+                //     return total_listen_time[value.key] <= grey_limit;
+                // });
+                // stackedData = stackedData.filter(function (value, index, arr) {
+                //     return total_listen_time[value.key] > grey_limit;
+                // });
+                stackedData.sort(function (a, b) {
+                    return total_listen_time[a.key] - total_listen_time[b.key]
+                });
+                // stackedData = stackedData.concat(low_listens);
+                console.log(stackedData);
                 // Show the bars
                 svg.append("g")
                     .selectAll("g")
                     // Enter in the stack data = loop key per key = group per group
                     .data(stackedData)
                     .join("g")
-                    .attr("fill", d => color(d))
+                    .attr("fill", d => {
+                        //console.log(d.key, total_listen_time[d.key])
+                        if (total_listen_time[d.key] < grey_limit)
+                            return '#696969'
+                        else
+                            return color(d)
+                    })
                     .selectAll("rect")
                     // enter a second time = loop subgroup per subgroup to add all rectangles
                     .data(d => d)
