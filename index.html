@@ -83,7 +83,6 @@
 
         .green {
             color: #1DB954;
-            margin-left: 15em;
             margin-top: 3em
         }
 
@@ -122,9 +121,11 @@
         }
 
         .container {
-            align-items: start;
             display: grid;
-            margin-bottom: 2em;
+            margin-top: 3em;
+            margin-bottom: 6em;
+            margin-right: 10em;
+            margin-left: 10em;
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
                 "a b"
@@ -133,7 +134,10 @@
         .containerV {
             align-items: start;
             display: grid;
-            margin-bottom: 4em;
+            margin-top: 3em;
+            margin-bottom: 6em;
+            margin-right: 10em;
+            margin-left: 10em;
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
                 "a a"
@@ -166,7 +170,7 @@
             <div class="name">Statistiques générales</div>
             <div class="name2">Moyenne du nombre de chansons écoutées par artiste</div>
             <div class="graph green">
-                <div class="container">
+                <div class="box">
                     <table>
                         <thead>
                             <tr>
@@ -390,7 +394,7 @@
                 var total_sessions = total_sessions.sort(function (a, b) {
                     if (a[0] == b[0]) return a[1] - b[1];
                     return a[0] - b[0];
-                }); pie_chart_1
+                });
                 var sessions_detailed = {};
                 total_sessions.forEach(([start, end]) => {
                     if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
@@ -942,14 +946,14 @@
 
             // set the dimensions and margins of the graph
             var margin = { top: 30, right: 0, bottom: 0, left: 100 },
-                width = 380 - margin.left - margin.right,
-                height = 250 - margin.top - margin.bottom;
+                width = 430 - margin.left - margin.right,
+                height = 350 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#histo_1")
                 .append("svg")
                 .attr("preserveAspectRatio", "xMidYMid meet")
-                .attr("viewBox", "0 0 700 400")
+                .attr("viewBox", "0 0 700 420")
                 .append("g")
                 .attr("transform",
                     "translate(" + 200 + "," + margin.top + ")");
@@ -1285,15 +1289,14 @@
             var data = Object.values(data)
 
             var margin = { top: 30, right: 0, bottom: 0, left:  0},
-                width = 400 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                width = 200 - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
                 .attr("preserveAspectRatio", "xMidYMid meet")
-                .attr("viewBox", "0 0 600 400")
-                .attr("transform", "translate(100,0)");
+                .attr("viewBox", "0 0 600 400");
 
 
             // Creating Pie generator
@@ -1305,7 +1308,7 @@
                 .outerRadius(100);
 
             let g = svg.append("g")
-                .attr("transform", "translate(260,200)");
+                .attr("transform", "translate(350,200)");
 
             // Grouping different arcs
             var arcs = g.selectAll("arc")
