@@ -83,7 +83,6 @@
 
         .green {
             color: #1DB954;
-            margin-left: 15em;
             margin-top: 3em
         }
 
@@ -92,6 +91,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 10px 2em;
             text-align: center top;
+            margin: auto;
         }
 
         /* div.box2>div {
@@ -121,14 +121,29 @@
         }
 
         .container {
-            margin-top: 30px;
-            align-items: start;
             display: grid;
+            margin-top: 3em;
+            margin-bottom: 6em;
+            margin-right: 10em;
+            margin-left: 10em;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 10px;
             grid-template-areas:
                 "a b"
                 "c d";
+        }
+        .containerV {
+            align-items: start;
+            display: grid;
+            margin-top: 3em;
+            margin-bottom: 6em;
+            margin-right: 10em;
+            margin-left: 10em;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "a a"
+                "c c"
+                "b b"
+                "d d";
         }
 
         table {
@@ -155,11 +170,10 @@
             <div class="name">Statistiques générales</div>
             <div class="name2">Moyenne du nombre de chansons écoutées par artiste</div>
             <div class="graph green">
-                <div class="container">
+                <div class="box">
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Total artistes</th>
                                 <th>Total albums</th>
                                 <th>Total chansons</th>
@@ -214,10 +228,12 @@
             Pour chaque artiste, on évalue la proportion des chansons écoutées présentes dans le top 10 global de
             l'artiste en nombre d'écoutes.
         </div>
-        <div class="name">Guillaume</div>
-        <div class="box" id="curve_1"></div>
-        <div class="name2">Rafael</div>
-        <div class="box" id="curve_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="graph" id="curve_1"></div>
+            <div class="name2">Rafael</div>
+            <div class="graph2" id="curve_2"></div>
+        </div>
 
     </section>
 
@@ -230,11 +246,12 @@
             Nous fions-nous encore une fois à l'avis du plus grand nombre ou cherchons nous à explorer hors des maximums
             locaux ?
         </div>
-
-        <div class="name">Guillaume</div>
-        <div class="box" id="bar4_chart_1"></div>
-        <div class="name2">Rafael</div>
-        <div class="box" id="bar4_chart_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="graph" id="bar4_chart_1"></div>
+            <div class="name2">Rafael</div>
+            <div class="graph2" id="bar4_chart_2"></div>
+        </div>
 
     </section>
 
@@ -272,11 +289,11 @@
             On affiche la chronologie totale, en différenciant les artistes, pour faire apparaitre les découvertes
             d'artistes, les vagues d'écoutes, si certains sont tombés dans l'oubli, etc.
         </div>
-        <div class="box">
-            <div id="stacked_barplot_1"></div>
-        </div>
-        <div class="box">
-            <div id="stacked_barplot_2"></div>
+        <div class="containerV">
+            <div class="name">Guillaume</div>
+            <div class="name2">Rafael</div>
+            <div class="graph" id="stacked_barplot_1"></div>
+            <div class="graph2" id="stacked_barplot_2"></div>
         </div>
     </section>
 
@@ -377,7 +394,7 @@
                 var total_sessions = total_sessions.sort(function (a, b) {
                     if (a[0] == b[0]) return a[1] - b[1];
                     return a[0] - b[0];
-                }); pie_chart_1
+                });
                 var sessions_detailed = {};
                 total_sessions.forEach(([start, end]) => {
                     if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
@@ -706,15 +723,15 @@
         function stacked_barplot_7(data, divname, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 10, right: 30, bottom: 40, left: 50 },
+            const margin = { top: 60, right: 30, bottom: 0, left: 50 },
                 width = 1500 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                height = 600 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divname)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 650")
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
             const div = d3.select("#" + divname).append("div")
@@ -723,11 +740,26 @@
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
-                // console.log(artistes)
-
+                console.log(data)
+                var total_listen_time = {}
+                for (month in data) {
+                    if (month == 'columns')
+                        continue;
+                    for (const artist in data[month]) {
+                        //console.log(artist, data[month][artist])
+                        if (artist == 'Mois')
+                            continue;
+                        if (total_listen_time.hasOwnProperty(artist))
+                            total_listen_time[artist] = parseInt(data[month][artist]) + total_listen_time[artist]
+                        else
+                            total_listen_time[artist] = parseInt(data[month][artist])
+                    }
+                }
                 // List of subgroups = header of the csv files = soil condition here
-                const subgroups = data.columns.slice(1)
-
+                var subgroups = data.columns.slice(1)
+                subgroups.sort(function (a, b) {
+                    return total_listen_time[b] - total_listen_time[a]
+                });
                 // List of groups = species here = value of the first column called group -> I show them on the X axis
                 const groups = data.map(d => (d.Mois))
 
@@ -743,7 +775,7 @@
                     .attr("transform", "translate(-20,15)rotate(-45)");
 
 
-                borneMax = (owner == 1 ? 2600 : 800)
+                borneMax = (owner == 1 ? 2000 : 800)
                 // Add Y axis
                 const y = d3.scaleLinear()
                     .domain([0, borneMax])
@@ -756,17 +788,36 @@
                     .range(d3.schemeSet3);
 
                 //stack the data? --> stack per subgroup
-                const stackedData = d3.stack()
+                var stackedData = d3.stack()
                     .keys(subgroups)
                     (data)
 
+                var grey_limit = (owner == 1 ? 2300 : 500)
+
+                // low_listens = stackedData.filter(function (value, index, arr) {
+                //     return total_listen_time[value.key] <= grey_limit;
+                // });
+                // stackedData = stackedData.filter(function (value, index, arr) {
+                //     return total_listen_time[value.key] > grey_limit;
+                // });
+                stackedData.sort(function (a, b) {
+                    return total_listen_time[a.key] - total_listen_time[b.key]
+                });
+                // stackedData = stackedData.concat(low_listens);
+                console.log(stackedData);
                 // Show the bars
                 svg.append("g")
                     .selectAll("g")
                     // Enter in the stack data = loop key per key = group per group
                     .data(stackedData)
                     .join("g")
-                    .attr("fill", d => color(d))
+                    .attr("fill", d => {
+                        //console.log(d.key, total_listen_time[d.key])
+                        if (total_listen_time[d.key] < grey_limit)
+                            return '#696969'
+                        else
+                            return color(d)
+                    })
                     .selectAll("rect")
                     // enter a second time = loop subgroup per subgroup to add all rectangles
                     .data(d => d)
@@ -798,15 +849,15 @@
         function arc_diagram_6(data, divName, owner) {
 
             // set the dimensions and margins of the graph
-            const margin = { top: 0, right: 30, bottom: 20, left: 30 },
-                width = 900 - margin.left - margin.right,
+            const margin = { top: 0, right: 0, bottom: 20, left: 80 },
+                width = 700 - margin.left - margin.right,
                 height = 260 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             const svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 800 350")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -894,18 +945,18 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 30, right: 0, bottom: 0, left: 100 },
+                width = 430 - margin.left - margin.right,
+                height = 350 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#histo_1")
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 700 420")
                 .append("g")
                 .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
+                    "translate(" + 200 + "," + margin.top + ")");
             const div = d3.select("#histo_1").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
@@ -972,8 +1023,8 @@
             //console.log(csvContent)
 
             // set the dimensions and margins of the graph
-            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-                width = 460 - margin.left - margin.right,
+            var margin = { top: 0, right: 0, bottom: 0, left: 150 },
+                width = 660 - margin.left - margin.right,
                 height = 460 - margin.top - margin.bottom,
                 innerRadius = 90,
                 outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
@@ -981,10 +1032,12 @@
             // append the svg object
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 700 460")
+                //.attr("width", width + margin.left + margin.right)
+                //.attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
+                .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2.5 + margin.top) + ")");
 
             datacsv = d3.csv("./graph_data/data_5_" + id + ".csv");
 
@@ -1058,15 +1111,15 @@
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 1500,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 10, right: 60, bottom: 0, left: 100 },
+                width = 1340,
+                height = 280 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 300")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -1090,7 +1143,7 @@
 
                 // Add Y axis
                 var y = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.pop)])
+                    .domain([0, 100])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -1136,16 +1189,16 @@
                 data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
-            var margin = { top: 30, right: 60, bottom: 70, left: 60 },
-                width = 1500
-            height = 400 - margin.top - margin.bottom;
+            var margin = { top: 10, right: 60, bottom: 0, left: 100},
+                width = 1340
+            height = 280 - margin.top - margin.bottom;
 
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 1500 300")
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -1169,7 +1222,7 @@
 
                 // Add Y axis
                 var y = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.top)])
+                    .domain([0, 1])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -1234,15 +1287,15 @@
 
             var data = Object.values(data)
 
-            var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-                width = 460 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 30, right: 0, bottom: 0, left:  0},
+                width = 200 - margin.left - margin.right,
+                height = 200 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
             var svg = d3.select("#" + divName)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("viewBox", "0 0 600 400");
 
 
             // Creating Pie generator
@@ -1254,7 +1307,7 @@
                 .outerRadius(100);
 
             let g = svg.append("g")
-                .attr("transform", "translate(150,120)");
+                .attr("transform", "translate(350,200)");
 
             // Grouping different arcs
             var arcs = g.selectAll("arc")
@@ -1278,7 +1331,7 @@
             // Adding data to each arc
             arcs.append("text")
                 .attr("transform", (d) => {
-                    radius = 130;
+                    radius = 135;
                     return "translate(" +
                         ((radius - 12) * Math.sin(((d.endAngle - d.startAngle) / 2) + d.startAngle)) +
                         ", " +
