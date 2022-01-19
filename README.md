@@ -31,3 +31,9 @@ Variations in listening habits :
     - average listen time per hour in the day, detailed
     - distribution of listen sessions over time, in intervals
 - Study of artist listen distribution over time as a chronology
+
+## Liens
+
+https://lyondataviz.github.io/teaching/lyon1-m2/2021/projets.html#rendu
+https://lyondataviz.github.io/teaching/lyon1-m2/2021/
+https://www.univ-lyon1.fr/
