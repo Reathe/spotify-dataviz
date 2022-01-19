@@ -4,6 +4,12 @@ page web : https://reathe.github.io/spotify-dataviz/
 
 ![teaser.png](./gallery/2_thumbnail.png)
 
+## Membres
+
+Guillaume Baulard
+Rafael Bachourian
+Florian Perreaut
+
 ## Résumé
 
 Visualisation d'une étude des habitudes d'écoute de deux membres du trinôme, en termes d'artistes/albums/chansons/genres, mais aussi en termes temporels, à savoir répartition des écoutes dans le temps, en sessions, dans une journée type.
@@ -23,7 +29,7 @@ Variation dans les habitudes d'écoute :
 Visualization of a study of the listening habits of two members of the groupe of 3. Artists/albums/songs/genres, but also the distribution of the listens over time, divided in sessions, in a typical day.
 
 Variations in listening habits :
-- Many artists & few songs for each (wide) vs. the ooposite (deep)
+- Many artists & few songs for each (wide) vs. the opposite (deep)
 - Eclectic in musical genres or rather chauvinistic. Genre representation in all artists listened to
 - Rate of popular songs listened to per artist
 - Artist 
