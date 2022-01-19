@@ -6,9 +6,9 @@ page web : https://reathe.github.io/spotify-dataviz/
 
 ## Membres
 
-Guillaume Baulard
-Rafael Bachourian
-Florian Perreaut
+- Guillaume Baulard
+- Rafael Bachourian
+- Florian Perreaut
 
 ## Résumé
 
