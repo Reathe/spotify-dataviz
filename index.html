@@ -3,7 +3,10 @@
 <head>
     <link rel="shortcut icon" href="#" />
     <meta charset="utf-8" />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preload" href="./Fonts/Gotham_Medium_Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="./data_final/listing_G.json" as="fetch" crossorigin />
+    <link rel="preload" href="./data_final/listing_R.json" as="fetch" crossorigin />
 </head>
 
 <body>
@@ -12,6 +15,7 @@
         @font-face {
             font-family: Gotham;
             src: url('./Fonts/Gotham_Medium_Regular.ttf');
+            font-display: swap;
         }
 
         .page-header {
@@ -299,6 +303,8 @@
         </div>
     </section>
 
+    <!-- Chargé en fin de page pour ne pas bloquer l'affichage du texte -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script>
 
         //lignes Artiste, album, chansons
@@ -313,158 +319,26 @@
         Prenom = "None"
         id = 1
 
+        // Ces graphes lisent des données précalculées dans graph_data/ :
+        // on les lance tout de suite, en parallèle, sans attendre les listings.
+        // (Les fichiers chronology_*.json, très lourds, ne sont plus chargés : rien ne les utilisait.)
+        histogram_1(bar_plot_1)
+        for (let owner = 1; owner <= 2; owner++) {
+            courbe_3(null, "curve_" + owner, owner)
+            barchart4(null, "bar4_chart_" + owner, owner)
+            circular_plot_5(null, "circular_plot_" + owner, owner)
+            arc_diagram_6(null, "arc_diagram_" + owner, owner)
+            stacked_barplot_7(null, "stacked_barplot_" + owner, owner)
+        }
+
         Promise.all([
 
             d3.json("./data_final/listing_G.json"),
-            d3.json("./data_final/listing_R.json"),
-            d3.json("./data_final/chronology_G.json"),
-            d3.json("./data_final/chronology_R.json")
+            d3.json("./data_final/listing_R.json")
 
         ]).then(function (jsons) {
             var listing_G = jsons[0];
             var listing_R = jsons[1];
-            var chronology_G = jsons[2];
-            var chronology_R = jsons[3];
-
-            delete chronology_R['2014-12-25'];
-
-
-
-            // console.log("Listing_G")
-            // console.log(listing_G);
-            // console.log("chronology_G")
-            // console.log(chronology_G);
-
-            // console.log(listing_R);
-            // console.log(chronology_G);
-            // console.log(chronology_R);
-
-            // convert ms to hh:mm:ss
-            function msToTime(s) {
-                // Pad to 2 or 3 digits, default is 2
-                var pad = (n, z = 2) => ('00' + n).slice(-z);
-                return pad(s / 3.6e6 | 0) + ':' + pad((s % 3.6e6) / 6e4 | 0) + ':' + pad((s % 6e4) / 1000 | 0) + '.' + pad(s % 1000, 3);
-            }
-            // convert ms to dd:hh:mm
-            function dhm(t) {
-                Promise
-                var cd = 24 * 60 * 60 * 1000,
-                    ch = 60 * 60 * 1000,
-                    d = Math.floor(t / cd),
-                    h = Math.floor((t - d * cd) / ch),
-                    m = Math.round((t - d * cd - h * ch) / 60000),
-                    pad = function (n) { return n < 10 ? '0' + n : n; };
-                if (m === 60) {
-                    h++;
-                    m = 0;
-                }
-                if (h === 24) {
-                    d++;
-                    h = 0;
-                }
-                return [d, pad(h), pad(m)].join(':');
-            }
-
-            // average listening time per hour, day, week, month, year since first day
-            // average listen time per hour, detailed
-            // session stats
-            function average_listens_and_sessions(chronology, since_start_date) {
-                var listen_time_per_hour_detailed = [];
-                for (let i = 0; i < 24; i++) { listen_time_per_hour_detailed[i] = 0; }
-                var session_lengths = [];
-                for (let i = 1; i < 18; i++) { session_lengths[i] = 0; }
-                var total_sessions = [];
-                var total_listen_time = 0;
-                Object.keys(chronology).forEach(function (day) {
-                    chronology[day]['sessions'].forEach(([start, end]) => {
-                        session_lengths[end - start + 1]++;
-                        total_sessions.push([start, end]);
-                    });
-                    Object.keys(chronology[day]).forEach(function (time) {
-                        var hour = time.substr(0, 2);
-                        var ms_played = chronology[day][time]['ms_played'];
-                        if (typeof ms_played !== 'undefined') {
-                            total_listen_time += ms_played;
-                            listen_time_per_hour_detailed[parseInt(hour)] += ms_played;
-                        }
-                    });
-                });
-                for (let i = 0; i < 24; i++) {
-                    listen_time_per_hour_detailed[i] *= 1.66667e-5;
-                    listen_time_per_hour_detailed[i] /= since_start_date['days_since_start_date'];
-                }
-                var total_sessions = total_sessions.sort(function (a, b) {
-                    if (a[0] == b[0]) return a[1] - b[1];
-                    return a[0] - b[0];
-                });
-                var sessions_detailed = {};
-                total_sessions.forEach(([start, end]) => {
-                    if (sessions_detailed.hasOwnProperty([start, end])) sessions_detailed[[start, end]] += 1;
-                    else sessions_detailed[[start, end]] = 1;
-                });
-                var average_listen_time_per_hour = total_listen_time / since_start_date['hours_since_start_date'];
-                var average_listen_time_per_day = total_listen_time / since_start_date['days_since_start_date'];
-                var average_listen_time_per_week = total_listen_time / since_start_date['weeks_since_start_date'];
-                var average_listen_time_per_month = total_listen_time / since_start_date['months_since_start_date'];
-                var average_listen_time_per_year = total_listen_time / since_start_date['years_since_start_date'];
-
-                // // average listening time per hour in the day, in minutes. array of 24 values where the index is the hour in the day
-                // console.log("listen time per hour detailed");
-                // console.log(listen_time_per_hour_detailed);
-                // // average listening time per hour since the beginning in ms
-                // console.log("average listen time per hour: " + msToTime(average_listen_time_per_hour));
-                // // average listening time per day since the beginning in ms
-                // console.log("average listen time per day: " + msToTime(average_listen_time_per_day));
-                // // average listening time per hour since the beginning in ms
-                // console.log("average listen time per week: " + msToTime(average_listen_time_per_week));
-                // // average listening time per hour since the beginning in ms
-                // console.log("average listen time per month: " + msToTime(average_listen_time_per_month));
-                // // average listening time per hour since the beginning in ms
-                // console.log("average listen time per year: " + dhm(average_listen_time_per_year) + " (dd:hh:mm)");
-                // // listing of all sessions from the beginning, represented by [start_hour, end_hour]
-                // console.log("total sessions");
-                // console.log(total_sessions);
-                // // object with keys the specific sessions (as in instances of [start, end]) and values the number of times these sessions happened
-                // console.log("sessions detailed");
-                // console.log(sessions_detailed);
-                // // array of values corresponding to the number of sessions of length equal to the index in the array
-                // console.log("session lengths");
-                // console.log(session_lengths);
-                // // total listening time from the beginning
-                // console.log("total listen time");
-                // console.log(dhm(total_listen_time) + " (dd:hh:mm)");
-
-                csv_listen_time_per_hour_detailed = [["Heures", "Temps"]]
-
-                for (i in listen_time_per_hour_detailed) {
-                    csv_listen_time_per_hour_detailed.push([i, listen_time_per_hour_detailed[i]])
-                }
-                // console.log(csv_listen_time_per_hour_detailed)
-
-                circular_plot_5(csv_listen_time_per_hour_detailed, "circular_plot_" + id, id)
-
-                json_sessions_detailed = { "nodes": [], "links": [] }
-                // console.log("CSV_JSON")
-
-                time = 24
-                idf = 0
-                while (idf < 24) {
-                    json_sessions_detailed["nodes"].push({ "id": idf, "name": idf })
-                    idf += 1
-                }
-
-
-                for (i in sessions_detailed) {
-                    spl = (i + "").split(",")
-                    //console.log(spl)
-                    json_sessions_detailed["links"].push({ "source": spl[0], "target": spl[1], "value": sessions_detailed[i] })
-                }
-                //console.log("json_sessions_detailed")
-                //console.log(JSON.stringify(json_sessions_detailed))
-
-                arc_diagram_6(1, "arc_diagram_" + id, id)
-
-            }
 
             // average number of albums listened to per artists, songs per album, songs per artists
             function average_and_total_figures(listing) {
@@ -491,12 +365,9 @@
                 // console.log("average number of songs listened to per album: " + average_songs_per_album);
 
                 data_graph_1[id] = [total_artists, total_albums, total_songs]
-                console.log(data_graph_1[1])
                 bar_plot_1[id] = [Prenom, average_songs_per_artist]
 
                 genres(listing)
-                artisteTop(listing)
-                artistePop(listing)
 
             }
             idColor = 0
@@ -519,31 +390,11 @@
 
 
             Prenom = "Guillaume"
-            since_start_date_G = {};
-            since_start_date_G['hours_since_start_date'] = 50327;
-            since_start_date_G['days_since_start_date'] = 2096;
-            since_start_date_G['weeks_since_start_date'] = 299;
-            since_start_date_G['months_since_start_date'] = 69;
-            since_start_date_G['years_since_start_date'] = 5.74;
-            // console.log("Guillaume");
-            average_listens_and_sessions(chronology_G, since_start_date_G);
             average_and_total_figures(listing_G);
-            // csvGraphe7(listing_G, chronology_G);
-            stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
-            since_start_date_R = {};
-            since_start_date_R['hours_since_start_date'] = 55943;
-            since_start_date_R['days_since_start_date'] = 2330;
-            since_start_date_R['weeks_since_start_date'] = 332;
-            since_start_date_R['months_since_start_date'] = 76;
-            since_start_date_R['years_since_start_date'] = 6.38;
             Prenom = "Rafael"
             id += 1
-            // console.log("Rafael");
-            average_listens_and_sessions(chronology_R, since_start_date_R);
             average_and_total_figures(listing_R);
-            // csvGraphe7(listing_R, chronology_R)
-            stacked_barplot_7(1, "stacked_barplot_" + id, id)
 
             document.getElementById("artistes_G").textContent = data_graph_1[1][0];
             document.getElementById("albums_G").textContent = data_graph_1[1][1];
@@ -552,53 +403,7 @@
             document.getElementById("albums_R").textContent = data_graph_1[2][1];
             document.getElementById("chansons_R").textContent = data_graph_1[2][2];
 
-            //Draw graph
-            histogram_1(bar_plot_1)
-            //drawPieChart(1,"pie_chart_0")
-            //drawPieChart(1,"pie_chart_1")
-
-
-            //courbe_3(1,"curve_2")
-
         });
-
-        function artistePop(listing) {
-
-            //console.log("Artiste Pop")
-
-            tabArtistePop = [["artist", "pop"]]
-            //Proportion = nb total d'un genre / total des genres par artiste
-
-            Object.keys(listing).forEach(function (artist) {
-                //tabArtisteTop[artist] = listing[artist].taux_top_track
-                tabArtistePop.push([artist, listing[artist].popularity])
-            });
-
-            //console.log(tabArtistePop)
-
-            barchart4(tabArtistePop, "bar4_chart_" + id, id)
-
-
-        }
-
-
-        function artisteTop(listing) {
-
-            // console.log("Artiste Top")
-
-            tabArtisteTop = [["artist", "top"]]
-            //Proportion = nb total d'un genre / total des genres par artiste
-
-            Object.keys(listing).forEach(function (artist) {
-                //tabArtisteTop[artist] = listing[artist].taux_top_track
-                tabArtisteTop.push([artist, listing[artist].taux_top_track])
-            });
-
-            //console.log(tabArtisteTop)
-
-            courbe_3(tabArtisteTop, "curve_" + id, id)
-
-        }
 
 
         function genres(listing) {
@@ -742,7 +547,6 @@
             // Parse the Data
             d3.csv("./graph_data/data_7_" + owner + ".csv").then(function (data) {
 
-                console.log(data)
                 var total_listen_time = {}
                 for (month in data) {
                     if (month == 'columns')
@@ -806,7 +610,6 @@
                     return total_listen_time[a.key] - total_listen_time[b.key]
                 });
                 // stackedData = stackedData.concat(low_listens);
-                console.log(stackedData);
                 // Show the bars
                 svg.append("g")
                     .selectAll("g")
@@ -1019,11 +822,6 @@
 
         function circular_plot_5(data, divName, id) {
 
-            let csvContent = "" +
-                data.map(e => e.join(",")).join("\n");
-
-            //console.log(csvContent)
-
             // set the dimensions and margins of the graph
             var margin = { top: 0, right: 0, bottom: 0, left: 150 },
                 width = 660 - margin.left - margin.right,
@@ -1109,9 +907,6 @@
 
         function barchart4(data, divName, owner) {
 
-            let csvContent = "" +
-                data.map(e => e.join(",")).join("\n");
-
             // set the dimensions and margins of the graph
             var margin = { top: 10, right: 60, bottom: 0, left: 100 },
                 width = 1340,
@@ -1186,9 +981,6 @@
 
 
         function courbe_3(data, divName, owner) {
-
-            let csvContent = "" +
-                data.map(e => e.join(",")).join("\n");
 
             // set the dimensions and margins of the graph
             var margin = { top: 10, right: 60, bottom: 0, left: 100 },
